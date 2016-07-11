@@ -26,6 +26,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.RunnableAction;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
+import forer.tann.videogame.screens.PuzzleTestScreen;
 import forer.tann.videogame.screens.Screen;
 import forer.tann.videogame.screens.titleScreen.TitleScreen;
 import forer.tann.videogame.utilities.graphics.Colours;
@@ -74,7 +75,7 @@ public class Main extends ApplicationAdapter {
 		});
 
 		setScale(scale);
-		setScreen(new TitleScreen());
+		setScreen(new PuzzleTestScreen());
 	}
 
 	public void setScale(int scale){
@@ -159,6 +160,7 @@ public class Main extends ApplicationAdapter {
 		batch.setProjectionMatrix(cam.combined);
 		Draw.fillRectangle(batch, 0, 0, Main.width, Main.height);
 		batch.end();
+		batch.setColor(Colours.zWHITE);
 		stage.draw();
 		batch.begin();
 
