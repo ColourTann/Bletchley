@@ -1,16 +1,13 @@
 package forer.tann.videogame.screens;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
-
-import forer.tann.videogame.puzzles.crossword.Crossword;
-import forer.tann.videogame.utilities.graphics.Colours;
-import forer.tann.videogame.utilities.graphics.Draw;
+import forer.tann.videogame.puzzles.picross.Picross;
 
 public class PuzzleTestScreen extends Screen{
 
 	
 	public PuzzleTestScreen() {
-		addActor(new Crossword());
+		addActor(new Picross());
 	}
 	
 	@Override
