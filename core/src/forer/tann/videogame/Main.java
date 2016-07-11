@@ -33,13 +33,13 @@ import forer.tann.videogame.utilities.graphics.Draw;
 import forer.tann.videogame.utilities.graphics.font.TannFont;
 
 public class Main extends ApplicationAdapter {
-	public static int width=400,height=300;
+	public static int width=300,height=200;
 	SpriteBatch batch;
 	Stage stage;
 	OrthographicCamera cam;
 	public static TextureAtlas atlas;
 	public static Main self;
-	public static int scale=3;
+	public static int scale=4;
 	public static boolean debug = true;
 	Screen currentScreen;
 	Screen previousScreen;
@@ -74,12 +74,7 @@ public class Main extends ApplicationAdapter {
 		});
 
 		setScale(scale);
-		
-
-		
 		setScreen(new TitleScreen());
-		
-
 	}
 
 	public void setScale(int scale){
