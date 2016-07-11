@@ -1,0 +1,20 @@
+
+atlas_image.png
+size: 128,32
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+fonts/font
+  rotate: false
+  xy: 2, 5
+  size: 109, 17
+  orig: 109, 17
+  offset: 0, 0
+  index: -1
+pixel
+  rotate: false
+  xy: 2, 2
+  size: 1, 1
+  orig: 1, 1
+  offset: 0, 0
+  index: -1
