@@ -12,12 +12,21 @@ import forer.tann.videogame.utilities.graphics.Draw;
 public class PicrossLabel extends Actor {
     static final int BORDER = 1;
     static final int SIZE = 10;
+    static final int MULTIPLIER = 4;
     int gridX, gridY;
-    public PicrossLabel(int x, int y) {
+    boolean isX;
+    public PicrossLabel(boolean isX, int x, int y) {
         this.gridX=x;
         this.gridY=y;
-        setSize(SIZE, SIZE);
-        setPosition(x * SIZE, y * SIZE);
+        this.isX=isX;
+
+        if (isX) {
+            setSize(SIZE, SIZE * MULTIPLIER);
+            setPosition(x * SIZE, y * SIZE);
+        } else {
+            setSize(SIZE * MULTIPLIER, SIZE);
+            setPosition(-MULTIPLIER * SIZE, y * SIZE);
+        }
     }
 
     @Override

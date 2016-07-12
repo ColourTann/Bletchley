@@ -15,7 +15,7 @@ public class Picross extends Puzzle {
         //Draw Labels, Don't draw the 0,0 label, it's blank
         //Draw the horizontal labels
         for (int x=0; x<width;x++) {
-            PicrossLabel label = new PicrossLabel(x,-1);
+            PicrossLabel label = new PicrossLabel(true, x,height);
             addActor(label);
 
             //Gotta put the picross in the right place
@@ -28,7 +28,7 @@ public class Picross extends Puzzle {
         }
         //Draw the vertical labels
         for (int y=0; y<height;y++) {
-            PicrossLabel label = new PicrossLabel(-1,y);
+            PicrossLabel label = new PicrossLabel(false, -1,y);
             addActor(label);
 
             //Gotta put the picross in the right place
