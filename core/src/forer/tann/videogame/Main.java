@@ -95,15 +95,23 @@ public class Main extends ApplicationAdapter {
 		
 		DialogueScreen one = new DialogueScreen("All was quiet at 62 Farwell Road (click to continue)", "quiet");
 		DialogueScreen two = new DialogueScreen("John was in his favourite chair", "sitting");
-		DialogueScreen three = new DialogueScreen("Clank- thud. 'must be the paper', thought John", "post");
+		DialogueScreen three = new DialogueScreen("Clank- thud. \"must be the paper\", thought John", "post");
 		
-		one.setClickAction(()->setScreen(two, TransitionType.FADE, Interpolation.linear, 1));
-		two.setClickAction(()->setScreen(three, TransitionType.FADE, Interpolation.linear, 1));
-		three.setClickAction(()->setScreen(one, TransitionType.FADE, Interpolation.linear, 1));
+		one.setClickAction(makeRunnable(two, TransitionType.FADE, Interpolation.linear, 1));
+		two.setClickAction(makeRunnable(three, TransitionType.FADE, Interpolation.linear, 1));
+		three.setClickAction(makeRunnable(one, TransitionType.FADE, Interpolation.linear, 1));
 		setScreen(one);
 
 	}
 
+	static Runnable makeRunnable (final DialogueScreen target,final TransitionType type, final Interpolation interp, final float time){
+		return new Runnable() {
+			public void run() {
+				Main.self.setScreen(target, type, interp, time);
+			}
+		};
+	}
+	
 	public void setScale(int scale){
 		Main.scale=scale;
 		int newWidth = width*scale;

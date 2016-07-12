@@ -27,21 +27,21 @@ public class DialogueScreen extends Screen{
 		setup(message,picture,null);
 	}
 	
-	public DialogueScreen(String message, String picture, Procedure p) {
-		setup(message,picture,p);
+	public DialogueScreen(String message, String picture, Runnable r) {
+		setup(message,picture,r);
 	}
 	
-	public void setClickAction(Procedure p){
+	public void setClickAction(final Runnable r){
 		addListener(new InputListener(){
 			@Override
 			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-				if(p!=null)p.action();
+				if(r!=null)r.run();
 				return false;
 			}
 		});
 	}
 	
-	public void setup(String message, String picture, Procedure p) {
+	public void setup(String message, String picture, final Runnable r) {
 		image = Main.atlas.findRegion(picture);
 		text = new TextRenderer(message, TannFont.bigFont, Main.width-HORIZONTAL_GAP*2);
 		text.setPosition(HORIZONTAL_GAP, (int)(GAP/2-text.getHeight()/2));
@@ -49,7 +49,7 @@ public class DialogueScreen extends Screen{
 		addListener(new InputListener(){
 			@Override
 			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-				if(p!=null)p.action();
+				if(r!=null)r.run();
 				return false;
 			}
 		});
