@@ -15,6 +15,7 @@ public class PicrossLabel extends Actor {
     static final int SIZE = PicrossTile.SIZE;
     static final int MULTIPLIER = 4;
     int gridX, gridY;
+    int[] numbers = new int[]{1,2,2};
     boolean isX;
     public PicrossLabel(boolean isX, int x, int y) {
         this.gridX=x;
@@ -41,9 +42,17 @@ public class PicrossLabel extends Actor {
         batch.setColor(Color.BLACK);
 
         if(!isX) {
-            TannFont.font.draw(batch, "Words", getX()+(SIZE/4), getY()+(SIZE/4));
+            int offset=0;
+            for (int n : numbers){
+                TannFont.font.draw(batch, n+"", getX() + (SIZE / 4) + (offset * 5), getY() + (SIZE / 4));
+                offset++;
+            }
         } else {
-            TannFont.font.draw(batch,"Words",getX()+(SIZE/4), getY()+(SIZE/4));
+            int offset=numbers.length;
+            for (int n : numbers){
+                TannFont.font.draw(batch, n+"", getX() + (SIZE / 4), getY() + (SIZE / 4) + (offset * 7));
+                offset--;
+            }
         }
 
         super.draw(batch, parentAlpha);
