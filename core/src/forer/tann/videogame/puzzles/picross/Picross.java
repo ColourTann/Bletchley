@@ -12,6 +12,7 @@ public class Picross extends Puzzle {
     int tileSize = PicrossTile.getSize();
     PicrossTile[][] tiles = new PicrossTile[width][height];
     public Picross() {
+
         //Draw Labels, Don't draw the 0,0 label, it's blank
         //Draw the horizontal labels
         for (int x=0; x<width;x++) {
