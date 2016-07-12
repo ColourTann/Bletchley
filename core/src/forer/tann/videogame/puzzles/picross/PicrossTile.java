@@ -13,7 +13,7 @@ import forer.tann.videogame.utilities.graphics.Draw;
  */
 public class PicrossTile extends Actor {
     static final int BORDER = 1;
-    static final int SIZE = 10;
+    static final int SIZE = 9;
     int gridX, gridY;
     boolean selected = false;
     public PicrossTile(int x, int y) {

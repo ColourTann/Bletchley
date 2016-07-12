@@ -12,7 +12,7 @@ import forer.tann.videogame.utilities.graphics.font.TannFont;
  */
 public class PicrossLabel extends Actor {
     static final int BORDER = 1;
-    static final int SIZE = 10;
+    static final int SIZE = PicrossTile.SIZE;
     static final int MULTIPLIER = 4;
     int gridX, gridY;
     boolean isX;
