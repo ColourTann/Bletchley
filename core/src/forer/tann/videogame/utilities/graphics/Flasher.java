@@ -17,7 +17,7 @@ public class Flasher extends Actor {
 	}
 	
 	public Flasher(float x, float y, float width, float height) {
-		this(x, y, width, height, Colours.BLUE, .8f);
+		this(x, y, width, height, Colours.GREEN, .8f);
 	}
 
 	public Flasher(float x, float y, float width, float height, Color col) {

@@ -26,10 +26,6 @@ NewsPaper paper;
 	}
 
 	@Override
-	public void gamepadButtonPressed(int buttoncode) {
-	}
-	
-	@Override
 	public void draw(Batch batch, float parentAlpha) {
 		batch.setColor(Colours.DARK);
 		Draw.fillActor(batch, this);

@@ -23,7 +23,7 @@ import forer.tann.videogame.utilities.graphics.font.TannFont;
 
 
 public class TextRenderer extends Actor{
-	private static Color defaultColour=Colours.GREEN;
+	private static Color defaultColour=Colours.LIGHT;
 	private static TannFont defaultFont=TannFont.font;
 	TannFont font = defaultFont;
 	int wrapWidth;
@@ -73,7 +73,6 @@ public class TextRenderer extends Actor{
 
 	@Override
 	public void draw(Batch batch, float parentAlpha) {
-		batch.setColor(Colours.zWHITE);
 //		font.draw(batch, "TOIJEOIJ OIDSJA OISDJ OIASJ DOIJSA DOI", 50, 50);
 		Draw.draw(batch, buffer.getColorBufferTexture(), (int)getX(), (int)getY()+getHeight(), 1, -1);
 		super.draw(batch, parentAlpha);
@@ -202,7 +201,7 @@ public class TextRenderer extends Actor{
 		if(bufferWidth%2!=0)bufferWidth++;
 		if(bufferHeight%2!=0){
 			bufferHeight++;
-			bonusBonusY=-2;
+			bonusBonusY=-1;
 			setSize(bufferWidth, bufferHeight-1);
 		}
 		else{

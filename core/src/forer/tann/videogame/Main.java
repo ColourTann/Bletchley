@@ -28,6 +28,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 
 import forer.tann.videogame.screens.PuzzleTestScreen;
 import forer.tann.videogame.screens.Screen;
+import forer.tann.videogame.screens.dialogue.DialogueScreen;
 import forer.tann.videogame.screens.titleScreen.TitleScreen;
 import forer.tann.videogame.utilities.graphics.Colours;
 import forer.tann.videogame.utilities.graphics.Convertilator;
@@ -41,7 +42,7 @@ public class Main extends ApplicationAdapter {
 	OrthographicCamera cam;
 	public static TextureAtlas atlas;
 	public static Main self;
-	public static int scale=4;
+	public static int scale=3;
 	public static boolean debug = true;
 	Screen currentScreen;
 	Screen previousScreen;
@@ -49,10 +50,23 @@ public class Main extends ApplicationAdapter {
 	public static float ticks;
 	public static int coloursUnlocked=2;
 	public enum MainState{Normal, Paused}
-	public static final int version = 4;
+	public static final int version = 0;
 	@Override
 	public void create () {
 		self=this;
+		
+		if(false){
+			String[] strings = new String[]{
+					"quiet.jpg",
+					"sitting.jpg",
+					"post.jpg",
+					"agent.jpg",
+					"bletchley.jpg",
+					"corridor.jpg",
+			};
+			for(String s:strings) Convertilator.convertilate(s);
+			System.exit(0);;
+		}
 		
 		buffer = new FrameBuffer(Format.RGBA8888, Main.width, Main.height, false);
 		atlas= new TextureAtlas(Gdx.files.internal("atlas_image.atlas"));
@@ -76,8 +90,18 @@ public class Main extends ApplicationAdapter {
 		});
 
 		setScale(scale);
-		setScreen(new PuzzleTestScreen());
 		
+		
+		
+		DialogueScreen one = new DialogueScreen("All was quiet at 62 Farwell Road (click to continue)", "quiet");
+		DialogueScreen two = new DialogueScreen("John was in his favourite chair", "sitting");
+		DialogueScreen three = new DialogueScreen("Clank- thud. 'must be the paper', thought John", "post");
+		
+		one.setClickAction(()->setScreen(two, TransitionType.FADE, Interpolation.linear, 1));
+		two.setClickAction(()->setScreen(three, TransitionType.FADE, Interpolation.linear, 1));
+		three.setClickAction(()->setScreen(one, TransitionType.FADE, Interpolation.linear, 1));
+		setScreen(one);
+
 	}
 
 	public void setScale(int scale){
@@ -111,7 +135,7 @@ public class Main extends ApplicationAdapter {
 	public void setState(MainState state){
 		this.state=state;
 	}
-	public enum TransitionType{LEFT, RIGHT};
+	public enum TransitionType{LEFT, RIGHT, FADE};
 	public void setScreen(final Screen screen, TransitionType type, Interpolation interp, float speed){
 		if(screen==currentScreen)return;
 		setScreen(screen);
@@ -131,7 +155,12 @@ public class Main extends ApplicationAdapter {
 			screen.addAction(Actions.sequence(Actions.moveTo(0, 0, speed, interp), ra));
 			previousScreen.addAction(Actions.moveTo(Main.width, 0, speed, interp));
 			break;
-
+		case FADE:
+			screen.setColor(1, 1, 1, 0);
+			screen.setPosition(0, 0);
+			previousScreen.addAction(Actions.fadeOut(speed/2, interp));
+			screen.addAction(Actions.delay(speed/3, Actions.fadeIn(speed/2, interp)));
+			
 		}
 		previousScreen.addAction(Actions.after(Actions.removeActor()));
 	}
@@ -148,6 +177,7 @@ public class Main extends ApplicationAdapter {
 		}
 		currentScreen=screen;
 		stage.addActor(screen);
+		if(previousScreen!=null) stage.addActor(previousScreen);
 
 	}
 	@Override

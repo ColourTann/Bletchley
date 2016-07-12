@@ -11,7 +11,6 @@ public abstract class Screen extends Group{
 	
 	public abstract void keyPressed(int keycode);
 	public abstract void keyReleased(int keycode);
-	public abstract void gamepadButtonPressed(int buttoncode);
 
 	public void setActive(boolean b) {
 	}

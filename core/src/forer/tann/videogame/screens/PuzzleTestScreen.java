@@ -18,9 +18,6 @@ public class PuzzleTestScreen extends Screen{
 	public void keyReleased(int keycode) {
 	}
 
-	@Override
-	public void gamepadButtonPressed(int buttoncode) {
-	}
 
 	
 	@Override
