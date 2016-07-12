@@ -30,6 +30,7 @@ import forer.tann.videogame.screens.PuzzleTestScreen;
 import forer.tann.videogame.screens.Screen;
 import forer.tann.videogame.screens.titleScreen.TitleScreen;
 import forer.tann.videogame.utilities.graphics.Colours;
+import forer.tann.videogame.utilities.graphics.Convertilator;
 import forer.tann.videogame.utilities.graphics.Draw;
 import forer.tann.videogame.utilities.graphics.font.TannFont;
 
@@ -76,6 +77,7 @@ public class Main extends ApplicationAdapter {
 
 		setScale(scale);
 		setScreen(new PuzzleTestScreen());
+		
 	}
 
 	public void setScale(int scale){
