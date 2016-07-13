@@ -214,7 +214,6 @@ public class TextRenderer extends Actor{
 				else currentLine.addTextPosition(new TextPosition(word, currentX, 0, textColour));
 
 				currentX+=length;
-				System.out.println(currentX);
 
 			}
 			if(c=='['){
