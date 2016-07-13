@@ -15,12 +15,13 @@ public class PicrossLabel extends Actor {
     static final int SIZE = PicrossTile.SIZE;
     static final int MULTIPLIER = 4;
     int gridX, gridY;
-    int[] numbers = new int[]{1,2,2};
+    int[] numbers;
     boolean isX;
-    public PicrossLabel(boolean isX, int x, int y) {
+    public PicrossLabel(boolean isX, int x, int y, int[] numbers) {
         this.gridX=x;
         this.gridY=y;
         this.isX=isX;
+        this.numbers = numbers;
 
         if (isX) {
             setSize(SIZE, SIZE * MULTIPLIER);

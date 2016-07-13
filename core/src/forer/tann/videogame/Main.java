@@ -28,6 +28,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 
 import forer.tann.videogame.puzzles.crossword.Crossword;
 import forer.tann.videogame.puzzles.crossword.CrosswordScreen;
+import forer.tann.videogame.puzzles.picross.PicrossScreen;
 import forer.tann.videogame.screens.PuzzleTestScreen;
 import forer.tann.videogame.screens.Screen;
 import forer.tann.videogame.screens.dialogue.DialogueScreen;
@@ -90,7 +91,7 @@ public class Main extends ApplicationAdapter {
 		screens.add(new DialogueScreen("\"Sounds like it's getting bad out there\"", "headline"));
 		screens.add(new DialogueScreen("\"While I'm safe here, out in the countryside\"", "hands"));
 		screens.add(new DialogueScreen("John always did the crossword", "crossword"));
-		screens.add(new CrosswordScreen());
+		screens.add(new PicrossScreen());
 		setScreen(screens.get(4));
 
 	}
