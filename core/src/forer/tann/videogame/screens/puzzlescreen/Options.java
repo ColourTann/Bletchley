@@ -30,14 +30,14 @@ public class Options extends Group{
 		hint.setClickAction(new Runnable() {
 			public void run() {
 				PuzzleScreen ps =(PuzzleScreen) (Main.self.currentScreen);
-				ps.hint();
+				ps.showHint();
 			}
 		});
 		
 		skip.setClickAction(new Runnable() {
 			public void run() {
 				PuzzleScreen ps =(PuzzleScreen) (Main.self.currentScreen);
-				ps.skip();
+				ps.showSkip();
 			}
 		});
 	}

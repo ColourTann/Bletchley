@@ -1,7 +1,6 @@
 package forer.tann.videogame.screens.puzzlescreen;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -12,19 +11,18 @@ import forer.tann.videogame.utilities.graphics.Colours;
 import forer.tann.videogame.utilities.graphics.Draw;
 import forer.tann.videogame.utilities.graphics.TextRenderer;
 
-public class HintPopup extends Group{
+public class SkipPopup extends Group{
 	static final int GAP = 4;
-	public HintPopup() {
-		
-		TextRenderer tr = new TextRenderer("[glasses] Grandad's Intuition [glasses][n][nh]Solve a random unsolved clue?[nq]", 180);
+	public SkipPopup() {
+		TextRenderer tr = new TextRenderer("Skip this puzzle?", 100);
 		setWidth(tr.getWidth()+GAP*2);
 		addActor(tr);
-		
+
 		Button yes = new Button("yes");
 		yes.addListener(new InputListener(){
 			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
 				PuzzleScreen ps =(PuzzleScreen) (Main.self.currentScreen);
-				ps.activateHint();
+				ps.activateSkip();
 				Main.self.currentScreen.pop();
 				return false;
 			}
@@ -43,10 +41,10 @@ public class HintPopup extends Group{
 		cancel.setPosition(gap, GAP);
 		yes.setPosition(gap*2+cancel.getWidth(), GAP);
 		tr.setPosition(GAP, GAP*2+yes.getHeight());
-		
+
 		setSize(tr.getWidth()+GAP*2, tr.getHeight()+yes.getHeight()+GAP*3);
 	}
-	
+
 	@Override
 	public void draw(Batch batch, float parentAlpha) {
 		batch.setColor(Colours.DARK);
@@ -57,3 +55,4 @@ public class HintPopup extends Group{
 		super.draw(batch, parentAlpha);
 	}
 }
+

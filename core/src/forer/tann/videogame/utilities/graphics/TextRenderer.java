@@ -203,9 +203,9 @@ public class TextRenderer extends Actor{
 				}
 				if(specialMode){
 					//adjust line height based on texture height
-					int diff = tr.getRegionHeight()-baseLineHeight+2;
-					int newDiff = diff/2-(lineHeight-baseLineHeight);
-					if(newDiff>0){
+					int diff = tr.getRegionHeight()-lineHeight;
+					int newDiff = diff-(lineHeight-baseLineHeight);
+					if(diff>0){
 						lineHeight+=newDiff;
 						currentY+=newDiff;
 					}

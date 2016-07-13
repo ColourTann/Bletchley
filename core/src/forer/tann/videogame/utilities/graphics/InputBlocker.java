@@ -1,6 +1,7 @@
 package forer.tann.videogame.utilities.graphics;
 
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -25,6 +26,13 @@ public class InputBlocker extends Actor{
 				return super.touchDown(event, x, y, pointer, button);
 			}
 		});
+	}
+	
+	@Override
+	public void draw(Batch batch, float parentAlpha) {
+		batch.setColor(0,0,0,.7f);
+		Draw.fillActor(batch, this);
+		super.draw(batch, parentAlpha);
 	}
 
 }

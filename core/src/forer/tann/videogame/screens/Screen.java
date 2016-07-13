@@ -32,11 +32,11 @@ public abstract class Screen extends Group{
 	public void push(Actor a){
 		stack.add(a);
 		addActor(a);
-		InputBlocker.get().remove();
 	}
 	
 	public void pop() {
-		removeActor(stack.remove(0));		
+		removeActor(stack.remove(0));	
+		removeActor(InputBlocker.get());
 	}
 	
 
