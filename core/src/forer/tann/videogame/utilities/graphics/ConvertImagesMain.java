@@ -8,7 +8,7 @@ public class ConvertImagesMain extends ApplicationAdapter {
 
 	@Override
 	public void create() {
-		FileHandle handle = Gdx.files.internal("toconvert");
+		FileHandle handle = Gdx.files.internal("../toconvert");
 		for(FileHandle f: handle.list()){
 			Convertilator.convertilate(f);
 		}

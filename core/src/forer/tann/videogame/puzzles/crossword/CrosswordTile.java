@@ -31,7 +31,6 @@ public class CrosswordTile extends Actor{
 		addListener(new InputListener(){
 			@Override
 			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-				System.out.println("you tapped on "+gridX+":"+gridY);
 				return false;
 			}
 		});

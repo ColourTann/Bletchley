@@ -48,7 +48,7 @@ public class Main extends ApplicationAdapter {
 	public static Main self;
 	public static int scale=3;
 	public static boolean debug = true;
-	Screen currentScreen;
+	public Screen currentScreen;
 	Screen previousScreen;
 	FrameBuffer buffer;
 	public static float ticks;
@@ -92,7 +92,7 @@ public class Main extends ApplicationAdapter {
 		screens.add(new DialogueScreen("\"While I'm safe here, out in the countryside\"", "hands"));
 		screens.add(new DialogueScreen("John always did the crossword", "crossword"));
 		screens.add(new CrosswordScreen());
-		setScreen(screens.get(0));
+		setScreen(screens.get(6));
 
 //		setScreen(screens.get(0));
 
@@ -145,6 +145,7 @@ public class Main extends ApplicationAdapter {
 	public void setScreen(final Screen screen, TransitionType type, Interpolation interp, float speed){
 		if(screen==currentScreen)return;
 		setScreen(screen);
+		screen.setActive(false);
 		RunnableAction ra = Actions.run(new Runnable() {
 			public void run() {
 				screen.setActive(true);
@@ -166,6 +167,7 @@ public class Main extends ApplicationAdapter {
 			screen.setPosition(0, 0);
 			previousScreen.addAction(Actions.fadeOut(speed/2, interp));
 			screen.addAction(Actions.delay(speed/3, Actions.fadeIn(speed/2, interp)));
+			screen.addAction(Actions.after(ra));
 			
 		}
 		previousScreen.addAction(Actions.after(Actions.removeActor()));

@@ -133,16 +133,19 @@ public class TextRenderer extends Actor{
 						specialNewLine=true;
 						specialLineHeight=lineHeight;
 						cancelSpecial=true;
+						space=true;
 					}
 					else if(word.equals("nh")){
 						specialNewLine=true;
 						cancelSpecial=true;
 						specialLineHeight=lineHeight/2;
+						space=true;
 					}
 					else if(word.equals("nq")){
 						specialNewLine=true;
 						cancelSpecial=true;
 						specialLineHeight=lineHeight/4;
+						space=true;
 					}
 					if(specialNewLine){
 						currentLine.setWidth(currentX-(specialMode?0:spaceWidth));
@@ -174,7 +177,7 @@ public class TextRenderer extends Actor{
 						}
 						continue;
 					}
-					if(!space && !formatting){
+					if(!space && !formatting && specialMode){
 						//find texture
 						tr = textureMap.get(word);
 						if(tr==null){
@@ -200,7 +203,7 @@ public class TextRenderer extends Actor{
 				}
 				if(specialMode){
 					//adjust line height based on texture height
-					int diff = tr.getRegionHeight()-baseLineHeight+1;
+					int diff = tr.getRegionHeight()-baseLineHeight+2;
 					int newDiff = diff/2-(lineHeight-baseLineHeight);
 					if(newDiff>0){
 						lineHeight+=newDiff;
@@ -209,9 +212,10 @@ public class TextRenderer extends Actor{
 					currentLine.addTextPosition(new TextPosition(tr, currentX, 0, pictureColour));
 				}
 				else currentLine.addTextPosition(new TextPosition(word, currentX, 0, textColour));
-				
+
 				currentX+=length;
-				
+				System.out.println(currentX);
+
 			}
 			if(c=='['){
 				specialMode=true;
@@ -270,7 +274,7 @@ public class TextRenderer extends Actor{
 	static HashMap<Character, Color> colourMap = new HashMap<>();
 
 	private Color colourFromChar(char colour) {
-				return colourMap.get(colour);
+		return colourMap.get(colour);
 	}
 
 	private static HashMap<String, TextureRegion> textureMap = new HashMap<String, TextureRegion>();
@@ -281,8 +285,8 @@ public class TextRenderer extends Actor{
 	}
 
 	private static void setupColours() {
-		colourMap.put('r', Colours.ORANGE);
-		colourMap.put('g', Colours.BROWN);
+		colourMap.put('o', Colours.ORANGE);
+		colourMap.put('b', Colours.BROWN);
 		colourMap.put('d', Colours.DARK);
 		colourMap.put('l', Colours.LIGHT);
 		colourMap.put('w', Colours.zWHITE);
@@ -291,6 +295,7 @@ public class TextRenderer extends Actor{
 	public static void setupTextures(){
 		setImage("->", Main.atlas.findRegion("right"));
 		setImage("v", Main.atlas.findRegion("down"));
+		setImage("glasses", Main.atlas.findRegion("glasses"));
 	}
 
 	public static void setImage(String id, TextureRegion texture){

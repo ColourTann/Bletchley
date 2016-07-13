@@ -18,19 +18,19 @@ public class DialogueScreen extends Screen{
 	public static final int HORIZONTAL_GAP = 3;
 	TextureRegion image;
 	TextRenderer text;
-	
+
 	public interface Procedure{
 		void action();
 	}
-	
+
 	public DialogueScreen(String message, String picture) {
 		setup(message,picture,null);
 	}
-	
+
 	public DialogueScreen(String message, String picture, Runnable r) {
 		setup(message,picture,r);
 	}
-	
+
 	public void setup(String message, String picture, final Runnable r) {
 		image = Main.atlas.findRegion("pixelimages/"+picture);
 		text = new TextRenderer(message, TannFont.bigFont, Main.width-HORIZONTAL_GAP*2);
@@ -39,11 +39,11 @@ public class DialogueScreen extends Screen{
 		addListener(new InputListener(){
 			@Override
 			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-				Main.self.nextScreen();
+					Main.self.nextScreen();
 				return false;
 			}
 		});
-		
+
 	}
 
 	@Override
@@ -54,7 +54,7 @@ public class DialogueScreen extends Screen{
 		batch.draw(image, (int)getX(), GAP);
 		super.draw(batch, parentAlpha);
 	}
-	
+
 	@Override
 	public void keyPressed(int keycode) {
 	}

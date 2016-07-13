@@ -5,8 +5,9 @@ import java.util.ArrayList;
 import com.badlogic.gdx.graphics.g2d.Batch;
 
 import forer.tann.videogame.Main;
-import forer.tann.videogame.screens.PuzzleScreen;
 import forer.tann.videogame.screens.Screen;
+import forer.tann.videogame.screens.puzzlescreen.Options;
+import forer.tann.videogame.screens.puzzlescreen.PuzzleScreen;
 import forer.tann.videogame.utilities.graphics.Colours;
 import forer.tann.videogame.utilities.graphics.Draw;
 
@@ -14,11 +15,11 @@ public class CrosswordScreen extends PuzzleScreen{
 	Crossword crossword;
 	int gap;
 	public CrosswordScreen() {
+		super("[tco]Crossword[n][nh][tcl]Try to figure out the clues. Click a coloured tile or a clue to start typing your answer.");
 		addActor(crossword = new Crossword());
 		gap = (int) ((Main.width-crossword.getWidth()-CrosswordClue.WIDTH)/3);
-		crossword.setPosition(gap*2 + CrosswordClue.WIDTH, (int)(Main.height/2-crossword.getHeight()/2));
+		crossword.setPosition(gap*2 + CrosswordClue.WIDTH, (int)((Main.height-Options.HEIGHT)/2-crossword.getHeight()/2));
 		setupClues();
-		addActor(new Hint());
 	}
 	
 	@Override
@@ -29,10 +30,10 @@ public class CrosswordScreen extends PuzzleScreen{
 	}
 	
 	public void setupClues(){
-		addClue(new CrosswordClue("[pcg][v] \"The war\" (anag.) (6)"));
-		addClue(new CrosswordClue("[pcg][->] The little fellow has some beer; it makes me lose colour, I say (6)"));
-		addClue(new CrosswordClue("[pcr][v] Kind of alias (9)"));
-		addClue(new CrosswordClue("[pcr][->] Pretend (5)"));
+		addClue(new CrosswordClue("[pcb][v] \"The war\" (anag.) (6)"));
+		addClue(new CrosswordClue("[pcb][->] The little fellow has some beer; it makes me lose colour, I say (6)"));
+		addClue(new CrosswordClue("[pco][v] Kind of alias (9)"));
+		addClue(new CrosswordClue("[pco][->] Pretend (5)"));
 		layoutClues();
 	}
 	

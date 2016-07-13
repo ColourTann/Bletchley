@@ -23,7 +23,7 @@ public class Colours {
 		int r = (rgb>>16)&0xff;
 		int g = (rgb>>8)&0xff;
 		int b = (rgb>>0)&0xff;
-		return new Color(r/255f,g/255f,b/255f, 1);
+		return make(r,g,b);
 	}
 	
 	public static Color make(int r, int g, int b){

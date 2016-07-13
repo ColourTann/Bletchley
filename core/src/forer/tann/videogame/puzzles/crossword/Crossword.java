@@ -189,9 +189,7 @@ public class Crossword extends Puzzle{
 		int dy=-1+right;
 		CrosswordTile start = getTileFromNumber(number);
 		int lettersUsed=0;
-		System.out.println(dx+":"+dy);
 		for(int x=start.gridX,y=start.gridY;true;x+=dx,y+=dy){
-			System.out.println(y);
 			CrosswordTile t = getTile(x, y);
 			if(t==null || answer.length()==lettersUsed)break;
 			t.setLetter(answer.charAt(lettersUsed));
