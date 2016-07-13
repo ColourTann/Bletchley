@@ -19,4 +19,7 @@ public abstract class TannFont {
 	public abstract int getHeight();
 	public abstract int getLineHeight(); 
 	public abstract int getSpaceWidth();
+	public int getKerning() {
+		return 0;
+	}
 }

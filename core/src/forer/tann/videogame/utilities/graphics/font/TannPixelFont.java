@@ -42,10 +42,10 @@ public class TannPixelFont extends TannFont{
 		}
 		//all the characters split by rows
 		String[] chars =  new String[]{
-				"0123456789.,!?:()\"+-/_%='",
+				"0123456789.,!?:;()\"+-/_%='",
 				"ABCDEFGHIJKLMNOPQRSTUVWXYZ",
 				"abcdefghijklmnopqrstuvwxyz"
-				};
+		};
 		int x=0;
 		int y=0;
 		for(int row=0;row<chars.length;row++){
@@ -92,7 +92,9 @@ public class TannPixelFont extends TannFont{
 		drawInternal(batch, text, x, y, Align.left, false);
 	}
 
-	private void drawInternal(Batch batch, CharSequence text, float x, float y, int align, boolean scaled){
+	private void drawInternal(Batch batch, CharSequence text, float fx, float fy, int align, boolean scaled){
+		int x = (int)fx;
+		int y = (int)fy;
 		if(align==Align.center){
 			x-=getWidth(text)/2;
 			y-=getHeight()/2;

@@ -18,6 +18,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 
+import forer.tann.videogame.Main;
 import forer.tann.videogame.utilities.graphics.font.TannFont;
 
 
@@ -25,13 +26,15 @@ import forer.tann.videogame.utilities.graphics.font.TannFont;
 public class TextRenderer extends Actor{
 	private static Color defaultColour=Colours.LIGHT;
 	private static TannFont defaultFont=TannFont.font;
+	Color textColour = defaultColour;
+	Color pictureColour = Colours.zWHITE;
 	TannFont font = defaultFont;
 	int wrapWidth;
 	String text;
 	int fontHeight;
 	int align = Align.center;
 	private FrameBuffer buffer;
-	
+
 	public TextRenderer(String text){
 		setup(text, defaultFont, (int)font.getWidth(text), Align.center);
 	}
@@ -47,7 +50,7 @@ public class TextRenderer extends Actor{
 	public TextRenderer(String text, TannFont font, int boxWidth, int align) {
 		setup(text, font, boxWidth, align, defaultColour);
 	}
-	
+
 	public TextRenderer(String text, TannFont font, int boxWidth, int align, Color colour) {
 		setup(text, font, boxWidth, align, colour);
 	}
@@ -55,14 +58,14 @@ public class TextRenderer extends Actor{
 	private void setup(String text, TannFont font, int boxWidth, int align){
 		setup(text, font, boxWidth, align, defaultColour);
 	}
-	
+
 	private void setup(String text, TannFont font, int boxWidth, int align, Color colour){
 		this.align=align;
 		this.font=font;
 		this.text=text;
 		this.wrapWidth=boxWidth;
 		fontHeight=(int) (getHeight());		
-		setColor(colour);
+		textColour=colour;
 		setupLines(text);
 	}
 
@@ -73,7 +76,7 @@ public class TextRenderer extends Actor{
 
 	@Override
 	public void draw(Batch batch, float parentAlpha) {
-//		font.draw(batch, "TOIJEOIJ OIDSJA OISDJ OIASJ DOIJSA DOI", 50, 50);
+		//		font.draw(batch, "TOIJEOIJ OIDSJA OISDJ OIASJ DOIJSA DOI", 50, 50);
 		Draw.draw(batch, buffer.getColorBufferTexture(), (int)getX(), (int)getY()+getHeight(), 1, -1);
 		super.draw(batch, parentAlpha);
 	}
@@ -108,21 +111,40 @@ public class TextRenderer extends Actor{
 				previousIndex=index+1;
 				if(specialMode){
 					boolean specialNewLine=false;
+					boolean cancelSpecial=false;
+					boolean formatting=false;
+					boolean space=false;
 					int specialLineHeight=0;
-					if(word.equalsIgnoreCase("n")){
+					if(word.startsWith("tc")){
+						char colour = word.charAt(2);
+						textColour = colourFromChar(colour);
+						formatting=true;
+						cancelSpecial=true;
+						space=true;
+					}
+					else if(word.startsWith("pc")){
+						char colour = word.charAt(2);
+						pictureColour = colourFromChar(colour);
+						formatting=true;
+						cancelSpecial=true;
+						space=true;
+					}
+					else if(word.equalsIgnoreCase("n")){
 						specialNewLine=true;
 						specialLineHeight=lineHeight;
+						cancelSpecial=true;
 					}
-					if(word.equals("nh")){
+					else if(word.equals("nh")){
 						specialNewLine=true;
+						cancelSpecial=true;
 						specialLineHeight=lineHeight/2;
 					}
-					if(word.equals("nq")){
+					else if(word.equals("nq")){
 						specialNewLine=true;
+						cancelSpecial=true;
 						specialLineHeight=lineHeight/4;
 					}
 					if(specialNewLine){
-						//newline and cancel special mode
 						currentLine.setWidth(currentX-(specialMode?0:spaceWidth));
 						currentLine.setY(currentY);
 						lines.add(currentLine);
@@ -131,9 +153,12 @@ public class TextRenderer extends Actor{
 						lineHeight=baseLineHeight;
 						currentX=0;
 						specialMode=false;
-						continue;
 					}
-					boolean space=false;
+					if(cancelSpecial||formatting){
+						specialMode=false;
+					}
+
+
 					if(word.equals("h")){
 						space=true;
 						currentX+=spaceWidth/2;
@@ -144,16 +169,22 @@ public class TextRenderer extends Actor{
 					}
 					if(space){
 						specialMode=false;
+						if(formatting){
+							currentX+=font.getKerning();
+						}
 						continue;
 					}
-					if(!space){
+					if(!space && !formatting){
 						//find texture
 						tr = textureMap.get(word);
 						if(tr==null){
 							System.out.println("couldn't find image id: "+word);
 						}
+						System.out.println(word);
 						length = tr.getRegionWidth();
 					}
+
+
 				}
 				else{
 					length = font.getWidth(word);
@@ -176,14 +207,19 @@ public class TextRenderer extends Actor{
 						lineHeight+=newDiff;
 						currentY+=newDiff;
 					}
-					currentLine.addTextPosition(new TextPosition(tr, currentX, 0));
+					currentLine.addTextPosition(new TextPosition(tr, currentX, 0, pictureColour));
 				}
-				else currentLine.addTextPosition(new TextPosition(word, currentX, 0));
+				else currentLine.addTextPosition(new TextPosition(word, currentX, 0, textColour));
+				
 				currentX+=length;
+				
 			}
-			if(c=='[')specialMode=true;
+			if(c=='['){
+				specialMode=true;
+			}
 			if(c==']')specialMode=false;
 			if(c==' ')currentX+=spaceWidth;
+
 		}
 		if(!lines.contains(currentLine, true)){
 			//finish final word
@@ -197,7 +233,7 @@ public class TextRenderer extends Actor{
 		batch.setColor(defaultColour);
 		int bufferWidth=(int)(wrapWidth);
 		int bufferHeight=(int) (currentY);
-		
+
 		if(bufferWidth%2!=0)bufferWidth++;
 		if(bufferHeight%2!=0){
 			bufferHeight++;
@@ -207,22 +243,22 @@ public class TextRenderer extends Actor{
 		else{
 			bonusBonusY=-1;
 			setSize(bufferWidth, bufferHeight);
-			
+
 		}
-		
-		
+
+
 		buffer = new FrameBuffer(Format.RGBA8888, bufferWidth, bufferHeight, false);
 		bufferCam = new OrthographicCamera(buffer.getWidth(), buffer.getHeight());
 		bufferCam.translate((int)(buffer.getWidth()/2), (int)(buffer.getHeight()/2));
 		bufferCam.update();
-		
+
 		buffer.bind();
 		buffer.begin();
 		batch.setProjectionMatrix(bufferCam.combined);
 		batch.begin();
 		batch.setColor(getColor());
-				
-		
+
+
 		for(Line l: lines){
 			l.render(batch, align);
 		}
@@ -232,15 +268,37 @@ public class TextRenderer extends Actor{
 		buffer.getColorBufferTexture().setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
 	}
 
+	static HashMap<Character, Color> colourMap = new HashMap<>();
+
+	private Color colourFromChar(char colour) {
+				return colourMap.get(colour);
+	}
+
 	private static HashMap<String, TextureRegion> textureMap = new HashMap<String, TextureRegion>();
 
+	public static void staticSetup(){
+		setupTextures();
+		setupColours();
+	}
+
+	private static void setupColours() {
+		colourMap.put('r', Colours.RED);
+		colourMap.put('g', Colours.GREEN);
+		colourMap.put('d', Colours.DARK);
+		colourMap.put('l', Colours.LIGHT);
+		colourMap.put('w', Colours.zWHITE);
+	}
+
 	public static void setupTextures(){
-		
+		setImage("->", Main.atlas.findRegion("right"));
+		setImage("v", Main.atlas.findRegion("down"));
 	}
 
 	public static void setImage(String id, TextureRegion texture){
 		textureMap.put(id, texture);
 	}
+
+
 
 	private class Line{
 		int width;
@@ -267,27 +325,32 @@ public class TextRenderer extends Actor{
 	}
 
 	static int bonusBonusY;
-	
+
 	private class TextPosition{
 		String text; 
 		TextureRegion tr;
 		int x, y;
-		public TextPosition(String text, int x, int y) {
+		Color colour;
+		public TextPosition(String text, int x, int y, Color colour) {
 			this.text=text; 
 			this.x=x; this.y=y;
+			this.colour=colour;
 		}
-		public TextPosition(TextureRegion tr, int x, int y) {
+		public TextPosition(TextureRegion tr, int x, int y, Color colour) {
 			this.tr=tr; 
 			this.x=x; this.y=y;
+			this.colour=colour;
 		}
+
 		public void render(Batch batch, int bonusX, int bonusY){
 			if(tr!=null) {
 				Color old = batch.getColor();
-				batch.setColor(Colours.LIGHT);
+				batch.setColor(colour);
 				batch.draw(tr, (int)(x+bonusX), (int)(buffer.getHeight()-y+font.getLineHeight()/2f-tr.getRegionHeight()/2f-bonusY+bonusBonusY));
 				batch.setColor(old);
 			}
 			else {
+				batch.setColor(colour);
 				font.draw(batch, text, (int)(x+bonusX), (int)(buffer.getHeight()-y-bonusY+bonusBonusY+1));
 			}
 		}

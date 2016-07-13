@@ -3,6 +3,7 @@ package forer.tann.videogame.utilities.graphics;
 import java.nio.ByteBuffer;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Pixmap.Format;
@@ -23,9 +24,9 @@ public class Convertilator {
 	static int sourceHeight;
 	static float[][][] bonuses;
 	static Color[][] sourceColours;
-	public static void convertilate(String filename){
+	public static void convertilate(FileHandle f){
 		//setting up all the data//
-		Texture t = new Texture(Gdx.files.internal(filename));
+		Texture t = new Texture(f);
 		sourceWidth = t.getWidth();
 		sourceHeight = t.getHeight();
 		bonuses = new float[RESULT_WIDTH][RESULT_HEIGHT][3];
@@ -75,7 +76,7 @@ public class Convertilator {
 			}
 		}
 		//output the result in the desktop folder
-		PixmapIO.writePNG(Gdx.files.local("converted/"+filename.split("\\.")[0]+".png"), resultMap);
+		PixmapIO.writePNG(Gdx.files.local("converted/"+f.name().split("\\.")[0]+".png"), resultMap);
 	}
 
 	private static void chooseBestColours(int num) {
