@@ -91,8 +91,10 @@ public class Main extends ApplicationAdapter {
 		screens.add(new DialogueScreen("\"Sounds like it's getting bad out there\"", "headline"));
 		screens.add(new DialogueScreen("\"While I'm safe here, out in the countryside\"", "hands"));
 		screens.add(new DialogueScreen("John always did the crossword", "crossword"));
-		screens.add(new PicrossScreen());
-		setScreen(screens.get(4));
+		screens.add(new CrosswordScreen());
+		setScreen(screens.get(0));
+
+//		setScreen(screens.get(0));
 
 	}
 

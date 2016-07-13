@@ -32,7 +32,7 @@ public class DialogueScreen extends Screen{
 	}
 	
 	public void setup(String message, String picture, final Runnable r) {
-		image = Main.atlas.findRegion(picture);
+		image = Main.atlas.findRegion("pixelimages/"+picture);
 		text = new TextRenderer(message, TannFont.bigFont, Main.width-HORIZONTAL_GAP*2);
 		text.setPosition(HORIZONTAL_GAP, (int)(GAP/2-text.getHeight()/2));
 		addActor(text);

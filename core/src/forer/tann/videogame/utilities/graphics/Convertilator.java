@@ -1,6 +1,8 @@
 package forer.tann.videogame.utilities.graphics;
 
 import java.nio.ByteBuffer;
+import java.util.ArrayList;
+import java.util.Collections;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
@@ -19,16 +21,23 @@ public class Convertilator {
 	static final int RESULT_WIDTH = Main.width;
 	static final int RESULT_HEIGHT = Main.height-DialogueScreen.GAP;
 	//	static Color[] colours = new Color[]{Colours.BLUE, Colours.DARK, Colours.RED, Colours.LIGHT, Colours.GREEN, Colours.zWHITE};
-	static Color[] colours = new Color[]{Colours.DARK, Colours.LIGHT, Colours.RED, Colours.GREEN};
+	static Color[] colours = Colours.ALL_COLOUR;
 	static int sourceWidth;
 	static int sourceHeight;
 	static float[][][] bonuses;
 	static Color[][] sourceColours;
+	static ArrayList<Integer> positions = new ArrayList<>();
 	public static void convertilate(FileHandle f){
 		//setting up all the data//
 		Texture t = new Texture(f);
 		sourceWidth = t.getWidth();
 		sourceHeight = t.getHeight();
+
+		for(int x=0;x<RESULT_WIDTH*RESULT_HEIGHT;x++){
+			positions.add(x);
+		}
+//		Collections.shuffle(positions);
+
 		bonuses = new float[RESULT_WIDTH][RESULT_HEIGHT][3];
 		TextureData data = t.getTextureData();
 		data.prepare();
@@ -56,27 +65,29 @@ public class Convertilator {
 		}
 
 
-//		chooseBestColours(4);
+		//		chooseBestColours(4);
 
 		//targetX and targetY refer to the final target pixels on the result
-		for(int targetY =0;targetY<RESULT_HEIGHT;targetY++){
-			for(int targetX =0;targetX<RESULT_WIDTH;targetX++){
-				//startX/Y refer to where to start looking for pixels on the source image
-				int startX = (int) ((targetX/(float)RESULT_WIDTH)*sourceMap.getWidth());
-				int startY = (int) ((targetY/(float)RESULT_HEIGHT)*sourceMap.getHeight());
-				for(int sourceX = startX; sourceX<startX+searchWidth;sourceX++){
-					for(int sourceY = startY; sourceY<startY+searchHeight;sourceY++){
-						//iterate around the area and log the colours
-						logColour(sourceColours[sourceX][sourceY]);
-					}
+		for(int i:positions){
+			int targetX = i%RESULT_WIDTH;
+			int targetY = i/RESULT_WIDTH;
+
+			//startX/Y refer to where to start looking for pixels on the source image
+			int startX = (int) ((targetX/(float)RESULT_WIDTH)*sourceMap.getWidth());
+			int startY = (int) ((targetY/(float)RESULT_HEIGHT)*sourceMap.getHeight());
+			for(int sourceX = startX; sourceX<startX+searchWidth;sourceX++){
+				for(int sourceY = startY; sourceY<startY+searchHeight;sourceY++){
+					//iterate around the area and log the colours
+					logColour(sourceColours[sourceX][sourceY]);
 				}
-				//get the best colour and draw a single pixel!
-				resultMap.setColor(getBestFit(targetX, targetY));
-				resultMap.drawPixel(targetX, targetY);
 			}
+			//get the best colour and draw a single pixel!
+			resultMap.setColor(getBestFit(targetX, targetY));
+			resultMap.drawPixel(targetX, targetY);
 		}
+
 		//output the result in the desktop folder
-		PixmapIO.writePNG(Gdx.files.local("converted/"+f.name().split("\\.")[0]+".png"), resultMap);
+		PixmapIO.writePNG(Gdx.files.local("../images/pixelimages/"+f.name().split("\\.")[0]+".png"), resultMap);
 	}
 
 	private static void chooseBestColours(int num) {
@@ -121,12 +132,12 @@ public class Convertilator {
 					}
 				}
 			}
-			
+
 			float bestHue = getHue((int)(bestCol.r*255), (int)(bestCol.g*255), (int)(bestCol.b*255));
 			float bestSat = getSaturation((int)(bestCol.r*255), (int)(bestCol.g*255), (int)(bestCol.b*255));
 			float bestVal = getValue((int)(bestCol.r*255), (int)(bestCol.g*255), (int)(bestCol.b*255));
 			System.out.println(bestHue+":"+bestVal+":"+bestSat);
-			
+
 			float hueRange = 40;
 			// 0-1 for the next two
 			float hueStrength = 1;
@@ -140,7 +151,7 @@ public class Convertilator {
 							if(hueDiff<hueRange){
 								float multiplier = (1-falloff)+(hueDiff/hueRange)*falloff;
 								float takeOff = heatMap[r][g][b] * multiplier * hueStrength; 
-								
+
 								heatMap[r][g][b]-=takeOff;
 							}
 						}
@@ -211,7 +222,7 @@ public class Convertilator {
 		r/=count; g/=count; b/=count;
 		//look through to find the best colour
 		Color best=null;
-		float bestDiff=9999;
+		float bestDiff=999999;
 		for(Color c:colours){
 			//add the bonuses from nearby pixels!
 			float diff = Math.abs(c.r-(r+bonuses[x][y][0])) + Math.abs(c.g-(g+bonuses[x][y][1])) + Math.abs(c.b-(b+bonuses[x][y][2]));
@@ -224,6 +235,7 @@ public class Convertilator {
 		int range = 2;
 		for(int bx=-range;bx<=range;bx++){
 			for(int by=-range;by<=range;by++){
+				if(bx==0&&by==0)continue;
 				int newX = x+bx;
 				int newY = y+by;
 				if(newX<0||newY<0||newX>=RESULT_WIDTH||newY>=RESULT_HEIGHT) continue;
@@ -234,7 +246,7 @@ public class Convertilator {
 				float rangeMultiplier=dist;
 				rangeMultiplier=.6f/rangeMultiplier;
 				//add the r/g/b difference to the bonuses array to keep track of how the colours are wrong
-
+				
 				bonuses[newX][newY][0]+=(r-best.r)*(ratio*rangeMultiplier);
 				bonuses[newX][newY][1]+=(g-best.g)*(ratio*rangeMultiplier);
 				bonuses[newX][newY][2]+=(b-best.b)*(ratio*rangeMultiplier);

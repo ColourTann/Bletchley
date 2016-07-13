@@ -155,10 +155,10 @@ public class Crossword extends Puzzle{
 	}
 	
 	private void setupColouredTiles() {
-		getTile(4, 14).setColor(Colours.RED);
-		getTile(0, 8).setColor(Colours.RED);
-		getTile(3, 6).setColor(Colours.GREEN);
-		getTile(8, 8).setColor(Colours.GREEN);
+		getTile(4, 14).setColor(Colours.ORANGE);
+		getTile(0, 8).setColor(Colours.ORANGE);
+		getTile(3, 6).setColor(Colours.BROWN);
+		getTile(8, 8).setColor(Colours.BROWN);
 	}
 
 

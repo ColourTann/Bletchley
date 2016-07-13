@@ -180,7 +180,6 @@ public class TextRenderer extends Actor{
 						if(tr==null){
 							System.out.println("couldn't find image id: "+word);
 						}
-						System.out.println(word);
 						length = tr.getRegionWidth();
 					}
 
@@ -282,8 +281,8 @@ public class TextRenderer extends Actor{
 	}
 
 	private static void setupColours() {
-		colourMap.put('r', Colours.RED);
-		colourMap.put('g', Colours.GREEN);
+		colourMap.put('r', Colours.ORANGE);
+		colourMap.put('g', Colours.BROWN);
 		colourMap.put('d', Colours.DARK);
 		colourMap.put('l', Colours.LIGHT);
 		colourMap.put('w', Colours.zWHITE);

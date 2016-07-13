@@ -18,6 +18,7 @@ public class CrosswordScreen extends PuzzleScreen{
 		gap = (int) ((Main.width-crossword.getWidth()-CrosswordClue.WIDTH)/3);
 		crossword.setPosition(gap*2 + CrosswordClue.WIDTH, (int)(Main.height/2-crossword.getHeight()/2));
 		setupClues();
+		addActor(new Hint());
 	}
 	
 	@Override
