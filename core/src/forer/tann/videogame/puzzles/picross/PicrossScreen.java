@@ -19,4 +19,7 @@ public class PicrossScreen extends PuzzleScreen {
 		Draw.fillActor(batch, this);
 		super.draw(batch, parentAlpha);
 	}
+	@Override
+	public void checkComplete() {
+	}
 }

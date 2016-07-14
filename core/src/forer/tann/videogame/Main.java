@@ -92,6 +92,7 @@ public class Main extends ApplicationAdapter {
 		screens.add(new DialogueScreen("\"While I'm safe here, out in the countryside\"", "hands"));
 		screens.add(new DialogueScreen("John always did the crossword", "crossword"));
 		screens.add(new CrosswordScreen());
+		screens.add(new DialogueScreen("John [tcb]always[tcl] did the crossword", "crossword"));
 		setScreen(screens.get(6));
 
 //		setScreen(screens.get(0));

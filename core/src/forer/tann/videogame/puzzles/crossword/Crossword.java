@@ -1,25 +1,40 @@
 package forer.tann.videogame.puzzles.crossword;
 
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 
+import forer.tann.videogame.Main;
 import forer.tann.videogame.puzzles.Puzzle;
+import forer.tann.videogame.screens.puzzlescreen.PuzzleScreen;
+import forer.tann.videogame.utilities.Sounds;
+import forer.tann.videogame.utilities.Sounds.SoundType;
 import forer.tann.videogame.utilities.graphics.Colours;
 import forer.tann.videogame.utilities.graphics.Draw;
 
 public class Crossword extends Puzzle{
 
+	CrosswordTile startTile;
+	CrosswordTile typingAt;
+	int typingRight;
+	
 	int width = 15;
 	int height = 15;
 	public static final int GAP = 1;
 	CrosswordTile[][] tiles = new CrosswordTile[width][height];
-	public Crossword() {
+	
+	private static Crossword self;
+	public static Crossword get(){
+		if(self==null) self = new Crossword();
+		return self;
+	}
+	
+	private Crossword() {
 		setSize(width*(CrosswordTile.SIZE+GAP)+GAP, height*(CrosswordTile.SIZE+GAP)+GAP);
 		setupTiles();
 		addAnswers();
 		setupColouredTiles();
-		
 	}
-
 
 	private void setupTiles() {
 		tile(0,0,34); 
@@ -115,50 +130,50 @@ public class Crossword extends Puzzle{
 	}
 	
 	private void addAnswers() {
-		addAnswer("troupe", 1, 1);
-		addAnswer("shortcut", 4, 1);
-		addAnswer("privet", 9, 1);
-		addAnswer("aromatic", 10, 1);
-		addAnswer("trend", 12, 1);
-		addAnswer("greatdeal", 13, 1);
-		addAnswer("owe", 15, 1);
-//		addAnswer("feign", 16, 1);
-		addAnswer("newark", 17, 1);
-//		addAnswer("impale", 22, 1);
-		addAnswer("guise", 24, 1);
-		addAnswer("ash", 27, 1);
-		addAnswer("centrebit", 28, 1);
-		addAnswer("token", 31, 1);
-		addAnswer("lamedogs", 32, 1);
-		addAnswer("racing", 33, 1);
-		addAnswer("silencer", 34, 1);
-		addAnswer("alight", 35, 1);
+		addAnswer("troupe", 1, 1, false);
+		addAnswer("shortcut", 4, 1, false);
+		addAnswer("privet", 9, 1, false);
+		addAnswer("aromatic", 10, 1, false);
+		addAnswer("trend", 12, 1, false);
+		addAnswer("greatdeal", 13, 1, false);
+		addAnswer("owe", 15, 1, false);
+		addAnswer("feign", 16, 1, true);
+		addAnswer("newark", 17, 1, false);
+		addAnswer("impale", 22, 1, true);
+		addAnswer("guise", 24, 1, false);
+		addAnswer("ash", 27, 1, false);
+		addAnswer("centrebit", 28, 1, false);
+		addAnswer("token", 31, 1, false);
+		addAnswer("lamedogs", 32, 1, false);
+		addAnswer("racing", 33, 1, false);
+		addAnswer("silencer", 34, 1, false);
+		addAnswer("alight", 35, 1, false);
 		
-		addAnswer("tipstaff", 1, 0);
-		addAnswer("oliveoil", 2, 0);
-//		addAnswer("pseudonum", 3, 0);
-		addAnswer("horde", 5, 0);
-		addAnswer("remit", 6, 0);
-		addAnswer("cutter", 7, 0);
-		addAnswer("tackle", 8, 0);
-		addAnswer("agenda", 11, 0);
-		addAnswer("ada", 14, 0);
-//		addAnswer("wreath", 18, 0);
-		addAnswer("rightnail", 19, 0);
-		addAnswer("tinkling", 20, 0);
-		addAnswer("sennight", 21, 0);
-		addAnswer("pie", 23, 0);
-		addAnswer("scales", 25, 0);
-		addAnswer("enamel", 26, 0);
-		addAnswer("rodin", 29, 0);
-		addAnswer("bogie", 30, 0);
+		addAnswer("tipstaff", 1, 0, false);
+		addAnswer("oliveoil", 2, 0, false);
+		addAnswer("pseudonym", 3, 0, true);
+		addAnswer("horde", 5, 0, false);
+		addAnswer("remit", 6, 0, false);
+		addAnswer("cutter", 7, 0, false);
+		addAnswer("tackle", 8, 0, false);
+		addAnswer("agenda", 11, 0, false);
+		addAnswer("ada", 14, 0, false);
+		addAnswer("wreath", 18, 0, true);
+		addAnswer("rightnail", 19, 0, false);
+		addAnswer("tinkling", 20, 0, false);
+		addAnswer("sennight", 21, 0, false);
+		addAnswer("pie", 23, 0, false);
+		addAnswer("scales", 25, 0, false);
+		addAnswer("enamel", 26, 0, false);
+		addAnswer("rodin", 29, 0, false);
+		addAnswer("bogie", 30, 0, false);
 	}
 	
 	private void setupColouredTiles() {
-		getTile(4, 14).setColor(Colours.ORANGE);
-		getTile(0, 8).setColor(Colours.ORANGE);
-		getTile(3, 6).setColor(Colours.BROWN);
-		getTile(8, 8).setColor(Colours.BROWN);
+		getTile(4, 14).setClue(0);
+		getTile(0, 8).setClue(1);
+		getTile(3, 6).setClue(1);
+		getTile(8, 8).setClue(0);
 	}
 
 
@@ -184,7 +199,7 @@ public class Crossword extends Puzzle{
 		addActor(tile);
 	}
 	
-	private void addAnswer(String answer, int number, int right){
+	private void addAnswer(String answer, int number, int right, boolean hidden){
 		int dx=right;
 		int dy=-1+right;
 		CrosswordTile start = getTileFromNumber(number);
@@ -192,10 +207,12 @@ public class Crossword extends Puzzle{
 		for(int x=start.gridX,y=start.gridY;true;x+=dx,y+=dy){
 			CrosswordTile t = getTile(x, y);
 			if(t==null || answer.length()==lettersUsed)break;
-			t.setLetter(answer.charAt(lettersUsed));
+			t.setLetter(answer.charAt(lettersUsed), hidden);
 			lettersUsed++;
 		}
 	}
+	
+	
 	
 	private CrosswordTile getTileFromNumber(int number) {
 		for(int x=0;x<width;x++){
@@ -219,7 +236,83 @@ public class Crossword extends Puzzle{
 		Draw.fillActor(batch, this);
 		super.draw(batch, parentAlpha);
 	}
-	
-	
 
+	public void keyPressed(int keycode) {
+		if(typingAt==null) return;
+		if(keycode==Input.Keys.BACKSPACE){
+			if(typingAt!=null){
+				CrosswordTile t = getTile(typingAt.gridX+typingRight*-1, typingAt.gridY+(-1+typingRight)*-1);
+				if(t!=null)setTile(t);
+			}
+		}
+		int start = Input.Keys.A;
+		if(keycode<start || keycode > start + 26){
+			return;
+		}
+		char key = (char) ('a' + (keycode-start));
+		if(typingAt!=null){
+			typingAt.type(key);
+			setTile(getTile(typingAt.gridX+typingRight, typingAt.gridY+(-1+typingRight)));
+		}
+		if(typingAt==null){
+			boolean good = checkAnswer(startTile);
+			if(!good){
+				Sounds.playSound(SoundType.Bad);
+				clearClue(startTile);
+			}
+			if(good){
+				Sounds.playSound(SoundType.Good);
+			}
+		}
+	}
+
+	private boolean checkAnswer(CrosswordTile start) {
+		boolean ok = true;
+		for(int dx=0,dy=0;true;dx+=typingRight,dy+=(-1+typingRight)){
+			CrosswordTile t = getTile(start.gridX+dx, start.gridY+dy);
+			if(t==null) break;
+			if(!t.isCorrect()) ok=false;
+		}
+		if(ok){
+			for(int dx=0,dy=0;true;dx+=typingRight,dy+=(-1+typingRight)){
+				CrosswordTile t = getTile(start.gridX+dx, start.gridY+dy);
+				if(t==null) break;
+				t.ordained=true;
+				
+			}
+			//make ding//
+			start.complete=true;
+			start.clue.complete();
+			((PuzzleScreen)Main.self.currentScreen).checkComplete();
+		}
+		return ok;
+	}
+
+	public void setStart(CrosswordTile tile) {
+		if(tile.complete)return;
+		startTile=tile;
+		setTile(tile);
+		this.typingRight=tile.direction;
+		clearClue(tile);
+	}
+	
+	public void clearClue(CrosswordTile tile){
+		for(int dx=0,dy=0;true;dx+=typingRight,dy+=(-1+typingRight)){
+			CrosswordTile t = getTile(tile.gridX+dx, tile.gridY+dy);
+			if(t==null) break;
+			t.type(' ');
+		}
+	}
+	
+	public void setTile(CrosswordTile tile){
+		if(typingAt!=null){
+			typingAt.setHighlight(false);
+		}
+		this.typingAt=tile;
+		if(tile!=null){
+			
+		tile.setHighlight(true);
+		}
+	}
+	
 }

@@ -16,7 +16,7 @@ public class CrosswordScreen extends PuzzleScreen{
 	int gap;
 	public CrosswordScreen() {
 		super("[tco]Crossword[n][nh][tcl]Try to figure out the clues. Click a coloured tile or a clue to start typing your answer.");
-		addActor(crossword = new Crossword());
+		addActor(crossword = Crossword.get());
 		gap = (int) ((Main.width-crossword.getWidth()-CrosswordClue.WIDTH)/3);
 		crossword.setPosition(gap*2 + CrosswordClue.WIDTH, (int)((Main.height-Options.HEIGHT)/2-crossword.getHeight()/2));
 		setupClues();
@@ -30,10 +30,10 @@ public class CrosswordScreen extends PuzzleScreen{
 	}
 	
 	public void setupClues(){
-		addClue(new CrosswordClue("[pcb][v] \"The war\" (anag.) (6)"));
-		addClue(new CrosswordClue("[pcb][->] The little fellow has some beer; it makes me lose colour, I say (6)"));
-		addClue(new CrosswordClue("[pco][v] Kind of alias (9)"));
-		addClue(new CrosswordClue("[pco][->] Pretend (5)"));
+		addClue(new CrosswordClue("[pcb][v] \"The war\" (anag.) (6)", Crossword.get().getTile(8, 8)));
+		addClue(new CrosswordClue("[pcb][v] Kind of alias (9)", Crossword.get().getTile(4, 14)));
+		addClue(new CrosswordClue("[pco][->] The little fellow has some beer; it makes me lose colour, I say (6)", Crossword.get().getTile(3, 6)));
+		addClue(new CrosswordClue("[pco][->] Pretend (5)", Crossword.get().getTile(0, 8)));
 		layoutClues();
 	}
 	
@@ -43,6 +43,7 @@ public class CrosswordScreen extends PuzzleScreen{
 	private void addClue(CrosswordClue clue){
 		clues.add(clue);
 	}
+	
 	private void layoutClues(){
 		int totalHeight=0;
 		for(CrosswordClue c:clues){
@@ -55,6 +56,24 @@ public class CrosswordScreen extends PuzzleScreen{
 			addActor(c);
 			c.setPosition(gap, clueY);
 			clueY+=c.getHeight()+CLUE_GAP;
+		}
+	}
+	
+	@Override
+	public void keyPressed(int keycode) {
+		crossword.keyPressed(keycode);
+		super.keyPressed(keycode);
+	}
+	
+	public void checkComplete(){
+		boolean ok = true;
+		for(CrosswordClue clue:clues){
+			if(!clue.complete){
+				ok = false;
+			}
+		}
+		if(ok){
+			complete();
 		}
 	}
 }

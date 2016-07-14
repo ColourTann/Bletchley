@@ -1,9 +1,13 @@
 package forer.tann.videogame.screens.puzzlescreen;
 
+import com.badlogic.gdx.graphics.g2d.Batch;
+
 import forer.tann.videogame.Main;
 import forer.tann.videogame.screens.Screen;
+import forer.tann.videogame.utilities.graphics.Colours;
+import forer.tann.videogame.utilities.graphics.Draw;
 
-public class PuzzleScreen extends Screen{
+public abstract class PuzzleScreen extends Screen{
 	HelpPopup help;
 	HintPopup hint;
 	SkipPopup skip;
@@ -48,9 +52,20 @@ public class PuzzleScreen extends Screen{
 		System.out.println("skip");
 	}
 
-
 	public void activateHint() {
-		System.out.println("hi");
+		System.out.println("hint");
 	}
+	
+	public void complete(){
+		Main.self.nextScreen();
+	}
+	
+	public abstract void checkComplete();
 
+	@Override
+	public void draw(Batch batch, float parentAlpha) {
+		super.draw(batch, parentAlpha);
+		Draw.setBatchColour(batch, Colours.DARK, 1-getColor().a);
+		Draw.fillActor(batch, this);
+	}
 }
