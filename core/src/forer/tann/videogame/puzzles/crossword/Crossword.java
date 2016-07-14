@@ -154,7 +154,7 @@ public class Crossword extends Puzzle{
 	}
 	
 	public ArrayList<CrosswordTile> getTilesInClue(CrosswordTile start){
-		ArrayList<CrosswordTile> result = new ArrayList<>();
+		ArrayList<CrosswordTile> result = new ArrayList<CrosswordTile>();
 		for(int dx=0,dy=0;true;dx+=start.direction,dy+=(-1+start.direction)){
 			CrosswordTile t = getTile(start.gridX+dx, start.gridY+dy);
 			if(t==null) break;

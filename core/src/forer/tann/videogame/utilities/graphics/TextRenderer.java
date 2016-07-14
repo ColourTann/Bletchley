@@ -270,7 +270,7 @@ public class TextRenderer extends Actor{
 		buffer.getColorBufferTexture().setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
 	}
 
-	static HashMap<Character, Color> colourMap = new HashMap<>();
+	static HashMap<Character, Color> colourMap = new HashMap<Character, Color>();
 
 	private Color colourFromChar(char colour) {
 		return colourMap.get(colour);

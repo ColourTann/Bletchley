@@ -26,7 +26,7 @@ public class Convertilator {
 	static int sourceHeight;
 	static float[][][] bonuses;
 	static Color[][] sourceColours;
-	static ArrayList<Integer> positions = new ArrayList<>();
+	static ArrayList<Integer> positions = new ArrayList<Integer>();
 	public static void convertilate(FileHandle f){
 		//setting up all the data//
 		Texture t = new Texture(f);

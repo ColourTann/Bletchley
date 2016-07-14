@@ -55,7 +55,7 @@ public class Main extends ApplicationAdapter {
 	public static int coloursUnlocked=2;
 	public enum MainState{Normal, Paused}
 	public static final int version = 0;
-	private static ArrayList<Screen> screens = new ArrayList<>();
+	private static ArrayList<Screen> screens = new ArrayList<Screen>();
 	@Override
 	public void create () {
 		self=this;

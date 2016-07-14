@@ -23,7 +23,7 @@ public abstract class Screen extends Group{
 		this.active=active;
 	}
 
-	public ArrayList<Actor> stack = new ArrayList<>();
+	public ArrayList<Actor> stack = new ArrayList<Actor>();
 	
 	public void addBlocker(){
 		addActor(InputBlocker.get());

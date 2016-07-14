@@ -45,7 +45,7 @@ public class CrosswordScreen extends PuzzleScreen{
 	}
 	
 	static final int CLUE_GAP=2;
-	ArrayList<CrosswordClue> clues = new ArrayList<>();
+	ArrayList<CrosswordClue> clues = new ArrayList<CrosswordClue>();
 	
 	private void addClue(CrosswordClue clue){
 		clues.add(clue);
