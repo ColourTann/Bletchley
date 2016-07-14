@@ -31,6 +31,7 @@ public class CrosswordTile extends Actor{
 		addListener(new InputListener(){
 			@Override
 			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+				
 				if(direction==-1) return false;
 				Crossword.get().startTyping(CrosswordTile.this);
 				return false;
@@ -81,6 +82,11 @@ public class CrosswordTile extends Actor{
 
 	public boolean isCorrect() {
 		return letter.equals(correctLetter);
+	}
+
+	public void forceCorrect() {
+		correct=true;
+		letter=correctLetter;
 	}
 
 }

@@ -22,4 +22,7 @@ public class PicrossScreen extends PuzzleScreen {
 	@Override
 	public void checkComplete() {
 	}
+	@Override
+	public void activateHint() {
+	}
 }

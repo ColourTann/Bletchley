@@ -35,7 +35,10 @@ public abstract class Screen extends Group{
 	}
 	
 	public void pop() {
-		removeActor(stack.remove(0));	
+		if(stack.size()>0){
+			removeActor(stack.remove(0));	
+			
+		}
 		removeActor(InputBlocker.get());
 	}
 	

@@ -8,6 +8,8 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.utils.Align;
 
+import forer.tann.videogame.utilities.Sounds;
+import forer.tann.videogame.utilities.Sounds.SoundType;
 import forer.tann.videogame.utilities.graphics.Colours;
 import forer.tann.videogame.utilities.graphics.Draw;
 import forer.tann.videogame.utilities.graphics.TextRenderer;
@@ -17,7 +19,9 @@ public class CrosswordClue extends Group{
 	static final int WIDTH= 100;
 	static final int GAP= 2;
 	boolean complete;
+	CrosswordTile tile;
 	public CrosswordClue(String clue, final CrosswordTile tile) {
+		this.tile=tile;
 		tile.clue=this;
 		TextRenderer renderer = new TextRenderer(clue, TannFont.font, WIDTH-GAP*2, Align.left, Colours.DARK);
 		setSize(WIDTH, renderer.getHeight()+GAP*2);
@@ -47,6 +51,8 @@ public class CrosswordClue extends Group{
 	}
 	
 	public void complete(){
+		Sounds.playSound(SoundType.Good);
 		complete=true;
+		CrosswordScreen.get().checkComplete();
 	}
 }

@@ -135,9 +135,6 @@ public class Crossword extends Puzzle{
 				Sounds.playSound(SoundType.Bad);
 				resetLetters(startTile);
 			}
-			if(good){
-				Sounds.playSound(SoundType.Good);
-			}
 		}
 	}
 
@@ -158,7 +155,7 @@ public class Crossword extends Puzzle{
 	
 	public ArrayList<CrosswordTile> getTilesInClue(CrosswordTile start){
 		ArrayList<CrosswordTile> result = new ArrayList<>();
-		for(int dx=0,dy=0;true;dx+=typingRight,dy+=(-1+typingRight)){
+		for(int dx=0,dy=0;true;dx+=start.direction,dy+=(-1+start.direction)){
 			CrosswordTile t = getTile(start.gridX+dx, start.gridY+dy);
 			if(t==null) break;
 			result.add(t);

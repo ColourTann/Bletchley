@@ -14,7 +14,14 @@ import forer.tann.videogame.utilities.graphics.Draw;
 public class CrosswordScreen extends PuzzleScreen{
 	Crossword crossword;
 	int gap;
-	public CrosswordScreen() {
+	
+	private static CrosswordScreen self;
+	public static CrosswordScreen get(){
+		if(self==null) self = new CrosswordScreen();
+		return self;
+	}
+	
+	private CrosswordScreen() {
 		super("[tco]Crossword[n][nh][tcl]Try to figure out the clues. Click a coloured tile or a clue to start typing your answer.");
 		addActor(crossword = Crossword.get());
 		gap = (int) ((Main.width-crossword.getWidth()-CrosswordClue.WIDTH)/3);
@@ -74,6 +81,19 @@ public class CrosswordScreen extends PuzzleScreen{
 		}
 		if(ok){
 			complete();
+		}
+	}
+
+	@Override
+	public void activateHint() {
+		for(CrosswordClue clue:clues){
+			if(!clue.complete){
+				for(CrosswordTile t:crossword.getTilesInClue(clue.tile)){
+					t.forceCorrect();
+				}
+				clue.complete();
+				break;
+			}
 		}
 	}
 }

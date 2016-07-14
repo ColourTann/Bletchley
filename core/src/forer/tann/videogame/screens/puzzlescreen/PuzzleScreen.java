@@ -49,12 +49,10 @@ public abstract class PuzzleScreen extends Screen{
 	}
 	
 	public void activateSkip() {
-		System.out.println("skip");
+		Main.self.nextScreen();
 	}
 
-	public void activateHint() {
-		System.out.println("hint");
-	}
+	public abstract void activateHint();
 	
 	public void complete(){
 		Main.self.nextScreen();
