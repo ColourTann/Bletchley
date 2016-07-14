@@ -14,36 +14,32 @@ public class CrosswordTile extends Actor{
 	static final int SIZE = 9;
 	int gridX, gridY;
 	public int number;
-	boolean complete;
 	public CrosswordClue clue;
+	boolean correct;
+	String correctLetter;
+	String letter="";
+
 	public CrosswordTile(int x, int y) {
-		setup(x,y,-1);
+		setup(x,y);
 	}
 
-	public CrosswordTile(int x, int y, int number) {
-		setup(x,y,number);
-	}
-
-	private void setup(int x, int y, int number){
+	private void setup(int x, int y){
 		this.gridX=x;
 		this.gridY=y;
 		setSize(SIZE, SIZE);
-		this.number=number;
 		setPosition(Crossword.GAP+x*(SIZE+Crossword.GAP), Crossword.GAP+y*(SIZE+Crossword.GAP));
 		addListener(new InputListener(){
 			@Override
 			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
 				if(direction==-1) return false;
-				Crossword.get().setStart(CrosswordTile.this);
+				Crossword.get().startTyping(CrosswordTile.this);
 				return false;
 			}
 		});
 		setColor(Colours.LIGHT);
 	}
 
-	boolean ordained;
-	String correctLetter;
-	String letter="";
+	
 	@Override
 	public void draw(Batch batch, float parentAlpha) {
 		batch.setColor(highlight?Colours.DARK:getColor());
@@ -64,12 +60,12 @@ public class CrosswordTile extends Actor{
 		}
 		else{
 			letter= String.valueOf(c);
-			ordained=true;
+			correct=true;
 		}
 	}
 
 	public void type(char key) {
-		if(!ordained) letter=String.valueOf(key);
+		if(!correct) letter=String.valueOf(key);
 	}
 
 	boolean highlight;

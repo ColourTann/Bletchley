@@ -27,7 +27,7 @@ public class CrosswordClue extends Group{
 		addListener(new InputListener(){
 			@Override
 			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-				Crossword.get().setStart(tile);
+				Crossword.get().startTyping(tile);
 				return false;
 			}
 		});
