@@ -148,7 +148,7 @@ public class Crossword extends Puzzle{
 				t.correct=true;
 			}
 			start.clue.complete();
-			((PuzzleScreen)Main.self.currentScreen).checkComplete();
+			CrosswordScreen.get().checkComplete();
 		}
 		return ok;
 	}
