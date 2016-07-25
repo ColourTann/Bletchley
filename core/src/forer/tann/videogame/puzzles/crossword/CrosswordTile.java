@@ -75,9 +75,9 @@ public class CrosswordTile extends Actor{
 	}
 
 	int direction=-1;
-	public void setClue(int dir) {
+	public void setClue(int dir, int col) {
 		this.direction=dir;
-		setColor(dir==1?Colours.ORANGE:Colours.BROWN);
+		setColor(col==1?Colours.ORANGE:Colours.BROWN);
 	}
 
 	public boolean isCorrect() {

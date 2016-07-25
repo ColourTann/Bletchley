@@ -92,7 +92,10 @@ public class Main extends ApplicationAdapter {
 		screens.add(new DialogueScreen("\"While I'm safe here, out in the countryside\"", "hands"));
 		screens.add(new DialogueScreen("John always did the crossword", "crossword"));
 		screens.add(CrosswordScreen.get());
-		screens.add(new DialogueScreen("John [tcb]always[tcl] did the crossword", "crossword"));
+		screens.add(new DialogueScreen("'If you can solve this, please call this number'", "crossword_completed"));
+		screens.add(new DialogueScreen("'A great opportunity awaits'", "phone"));
+		screens.add(new DialogueScreen("\"And you say you got 'feign' for 15 across?\"", "churchill_phone"));
+		screens.add(new DialogueScreen("*TAP-A-TAP-A-TAP*", "agent"));
 		setScreen(screens.get(5));
 
 //		setScreen(screens.get(0));

@@ -10,9 +10,11 @@ public class ConvertImagesMain extends ApplicationAdapter {
 	public void create() {
 		FileHandle handle = Gdx.files.internal("../toconvert");
 		for(FileHandle f: handle.list()){
-			Convertilator.convertilate(f);
+			if(f.name().contains(".")){
+				Convertilator.convertilate(f);
+			}
 		}
 		System.exit(0);;
 	}
-	
+
 }

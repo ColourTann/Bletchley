@@ -34,22 +34,21 @@ public class Crossword extends Puzzle{
 	private Crossword() {
 		setSize(width*(CrosswordTile.SIZE+GAP)+GAP, height*(CrosswordTile.SIZE+GAP)+GAP);
 		addAnswers();
-		setupColouredTiles();
 	}
 
 	private void addAnswers() {
 		addAnswer("troupe", 0, 14, 1, false);
 		addAnswer("shortcut", 7, 14, 1, false);
 		addAnswer("privet", 0, 12, 1, false);
-		addAnswer("aromatic", 7, 12, 1, false);
+		addAnswer("aromatic", 7, 12, 1, true);
 		addAnswer("trend", 0, 10, 1, false);
-		addAnswer("greatdeal", 5, 10, 1, false);
+		addAnswer("greatdeal", 6, 10, 1, false);
 		addAnswer("owe", 4, 9, 1, false);
-		addAnswer("feign", 0, 8, 1, true);
+		addAnswer("feign", 0, 8, 1, false);
 		addAnswer("newark", 6, 8, 1, false);
-		addAnswer("impale", 3, 6, 1, true);
+		addAnswer("impale", 3, 6, 1, false);
 		addAnswer("guise", 10, 6, 1, false);
-		addAnswer("ash", 8, 5, 1, false);
+		addAnswer("ash", 8, 5, 1, true);
 		addAnswer("centrebit", 0, 4, 1, false);
 		addAnswer("token", 10, 4, 1, false);
 		addAnswer("lamedogs", 0, 2, 1, false);
@@ -59,8 +58,8 @@ public class Crossword extends Puzzle{
 		
 		addAnswer("tipstaff", 0, 14, 0, false);
 		addAnswer("oliveoil", 2, 14, 0, false);
-		addAnswer("pseudonym", 4, 14, 0, true);
-		addAnswer("horde", 8, 14, 0, false);
+		addAnswer("pseudonym", 4, 14, 0, false);
+		addAnswer("horde", 8, 14, 0, true);
 		addAnswer("remit", 10, 14, 0, false);
 		addAnswer("cutter", 12, 14, 0, false);
 		addAnswer("tackle", 14, 14, 0, false);
@@ -77,14 +76,6 @@ public class Crossword extends Puzzle{
 		addAnswer("bogie", 6, 4, 0, false);
 	}
 	
-	private void setupColouredTiles() {
-		getTile(4, 14).setClue(0);
-		getTile(0, 8).setClue(1);
-		getTile(3, 6).setClue(1);
-		getTile(8, 8).setClue(0);
-	}
-
-
 	private CrosswordTile makeTile(int x, int y){
 		if(getTile(x, y)!=null) return getTile(x, y);
 		CrosswordTile tile = new CrosswordTile(x,y);
@@ -103,6 +94,7 @@ public class Crossword extends Puzzle{
 			t.setLetter(answer.charAt(lettersUsed), hidden);
 			lettersUsed++;
 		}
+		getTile(startX, startY).direction=right;
 	}
 	
 	public CrosswordTile getTile(int x, int y){
@@ -133,9 +125,11 @@ public class Crossword extends Puzzle{
 			boolean good = checkAnswer(startTile);
 			if(!good){
 				Sounds.playSound(SoundType.Bad);
+				deselectTyping();
 				resetLetters(startTile);
 			}
 		}
+		CrosswordScreen.get().checkComplete();
 	}
 
 	private boolean checkAnswer(CrosswordTile start) {
@@ -148,7 +142,6 @@ public class Crossword extends Puzzle{
 				t.correct=true;
 			}
 			start.clue.complete();
-			CrosswordScreen.get().checkComplete();
 		}
 		return ok;
 	}
@@ -164,11 +157,22 @@ public class Crossword extends Puzzle{
 	}
 
 	public void startTyping(CrosswordTile tile) {
-		if(tile.clue.complete)return;
+		
+		if(tile.clue==null || tile.clue.complete)return;
+		if(startTile==tile){
+			deselectTyping();
+			return;
+		}
 		startTile=tile;
 		setTypingTile(tile);
 		this.typingRight=tile.direction;
 		resetLetters(tile);
+	}
+	
+	public void deselectTyping(){
+		startTile.setHighlight(false);
+		startTile=null;
+		setTypingTile(null);
 	}
 	
 	public void resetLetters(CrosswordTile start){

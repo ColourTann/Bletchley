@@ -4,10 +4,10 @@ import com.badlogic.gdx.graphics.Color;
 
 public class Colours {
 
-	public static final Color LIGHT = make(0xefce98);
-	public static final Color ORANGE = make(0xb97928);
-	public static final Color BROWN = make(0x963b04);
-	public static final Color DARK = make(0x260b00);
+	public static final Color LIGHT = make(0xf5ddb8);
+	public static final Color ORANGE = make(0xd6831e);
+	public static final Color BROWN = make(0x85411c);
+	public static final Color DARK = make(0x0a0504);
 //	public static final Color OTHER = make(0x061400);
 //	public static final Color RED = make(0xC4, 0x56, 0x56);
 //	public static final Color GREEN = make(0x19, 0x72, 0x25);

@@ -42,7 +42,7 @@ public class TannPixelFont extends TannFont{
 		}
 		//all the characters split by rows
 		String[] chars =  new String[]{
-				"0123456789.,!?:;()\"+-/_%='",
+				"0123456789.,!?:;()\"+-/_%='*",
 				"ABCDEFGHIJKLMNOPQRSTUVWXYZ",
 				"abcdefghijklmnopqrstuvwxyz"
 		};

@@ -16,12 +16,13 @@ import forer.tann.videogame.utilities.graphics.TextRenderer;
 import forer.tann.videogame.utilities.graphics.font.TannFont;
 
 public class CrosswordClue extends Group{
-	static final int WIDTH= 100;
+	static final int WIDTH= 106;
 	static final int GAP= 2;
 	boolean complete;
 	CrosswordTile tile;
-	public CrosswordClue(String clue, final CrosswordTile tile) {
+	public CrosswordClue(String clue, final CrosswordTile tile, int colour) {
 		this.tile=tile;
+		tile.setClue(tile.direction, colour);
 		tile.clue=this;
 		TextRenderer renderer = new TextRenderer(clue, TannFont.font, WIDTH-GAP*2, Align.left, Colours.DARK);
 		setSize(WIDTH, renderer.getHeight()+GAP*2);
@@ -43,7 +44,8 @@ public class CrosswordClue extends Group{
 		Draw.fillActor(batch, this);
 		if(complete){
 			batch.setColor(Colours.BROWN);
-			Draw.drawLine(batch, getX(), getY(), getX()+getWidth(), getY()+getHeight()-1, 1);
+//			Draw.drawLine(batch, getX(), getY(), getX()+getWidth(), getY()+getHeight()-1, 1);
+			Draw.drawRectangle(batch, getX(), getY(), getWidth(), getHeight(), 1);
 		}
 		batch.setColor(Colours.zWHITE);
 		
@@ -53,6 +55,6 @@ public class CrosswordClue extends Group{
 	public void complete(){
 		Sounds.playSound(SoundType.Good);
 		complete=true;
-		CrosswordScreen.get().checkComplete();
+//		CrosswordScreen.get().checkComplete();
 	}
 }

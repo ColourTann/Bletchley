@@ -37,10 +37,11 @@ public class CrosswordScreen extends PuzzleScreen{
 	}
 	
 	public void setupClues(){
-		addClue(new CrosswordClue("[pcb][v] \"The war\" (anag.) (6)", Crossword.get().getTile(8, 8)));
-		addClue(new CrosswordClue("[pcb][v] Kind of alias (9)", Crossword.get().getTile(4, 14)));
-		addClue(new CrosswordClue("[pco][->] The little fellow has some beer; it makes me lose colour, I say (6)", Crossword.get().getTile(3, 6)));
-		addClue(new CrosswordClue("[pco][->] Pretend (5)", Crossword.get().getTile(0, 8)));
+		addClue(new CrosswordClue("[pcb][->] Tree (3)", Crossword.get().getTile(8, 5), 0));
+		addClue(new CrosswordClue("[pcb][v] \"The war\" (anag.) (6)", Crossword.get().getTile(8, 8), 0));
+		addClue(new CrosswordClue("[pco][->] Scented (8)", Crossword.get().getTile(7, 12), 1));
+		addClue(new CrosswordClue("[pco][v] A disagreeable company (5)", Crossword.get().getTile(8, 14), 1));
+		
 		layoutClues();
 	}
 	

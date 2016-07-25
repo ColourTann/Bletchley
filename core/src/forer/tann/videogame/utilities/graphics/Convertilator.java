@@ -27,7 +27,15 @@ public class Convertilator {
 	static float[][][] bonuses;
 	static Color[][] sourceColours;
 	static ArrayList<Integer> positions = new ArrayList<Integer>();
+	static long l;
+	
+	private static void time(String s){
+		System.out.println(s+": "+(System.currentTimeMillis()-l));
+		l = System.currentTimeMillis();
+	}
 	public static void convertilate(FileHandle f){
+		
+		time("Start "+f.nameWithoutExtension());
 		//setting up all the data//
 		Texture t = new Texture(f);
 		sourceWidth = t.getWidth();
@@ -36,6 +44,7 @@ public class Convertilator {
 		for(int x=0;x<RESULT_WIDTH*RESULT_HEIGHT;x++){
 			positions.add(x);
 		}
+		time("1");
 //		Collections.shuffle(positions);
 
 		bonuses = new float[RESULT_WIDTH][RESULT_HEIGHT][3];
@@ -45,7 +54,7 @@ public class Convertilator {
 		Pixmap resultMap = new Pixmap(RESULT_WIDTH, RESULT_HEIGHT, Format.RGBA8888);
 		float widthRatio = sourceMap.getWidth()/(float)resultMap.getWidth();
 		float heightRatio = sourceMap.getWidth()/(float)resultMap.getWidth();
-
+		time("2");
 
 		//load the data into a byte array to avoid io every check//
 		ByteBuffer allSourcePixels = sourceMap.getPixels();
@@ -55,6 +64,7 @@ public class Convertilator {
 		//eg 2x2 area//
 		int searchWidth=Math.max(1, (int) widthRatio);
 		int searchHeight=Math.max(1, (int) heightRatio);
+		int searchResolution = Math.max(1, searchWidth/5);
 		//		searchWidth=1;
 		//		searchHeight=1;
 		sourceColours = new Color[sourceWidth][sourceHeight];
@@ -63,6 +73,7 @@ public class Convertilator {
 				sourceColours[x][y] = getColour(x, y, allColours);
 			}
 		}
+		time("3");
 
 
 		//		chooseBestColours(4);
@@ -75,8 +86,8 @@ public class Convertilator {
 			//startX/Y refer to where to start looking for pixels on the source image
 			int startX = (int) ((targetX/(float)RESULT_WIDTH)*sourceMap.getWidth());
 			int startY = (int) ((targetY/(float)RESULT_HEIGHT)*sourceMap.getHeight());
-			for(int sourceX = startX; sourceX<startX+searchWidth;sourceX++){
-				for(int sourceY = startY; sourceY<startY+searchHeight;sourceY++){
+			for(int sourceX = startX; sourceX<startX+searchWidth;sourceX+=searchResolution){
+				for(int sourceY = startY; sourceY<startY+searchHeight;sourceY+=searchResolution){
 					//iterate around the area and log the colours
 					logColour(sourceColours[sourceX][sourceY]);
 				}
@@ -85,9 +96,10 @@ public class Convertilator {
 			resultMap.setColor(getBestFit(targetX, targetY));
 			resultMap.drawPixel(targetX, targetY);
 		}
-
+		time("4");
 		//output the result in the desktop folder
 		PixmapIO.writePNG(Gdx.files.local("../images/pixelimages/"+f.name().split("\\.")[0]+".png"), resultMap);
+		time("5");
 	}
 
 	private static void chooseBestColours(int num) {
