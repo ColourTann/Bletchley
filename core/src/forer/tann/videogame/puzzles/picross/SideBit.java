@@ -1,5 +1,7 @@
 package forer.tann.videogame.puzzles.picross;
 
+import java.util.ArrayList;
+
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.utils.Align;
@@ -10,12 +12,10 @@ import forer.tann.videogame.utilities.graphics.font.TannFont;
 import forer.tann.videogame.utilities.graphics.font.TannPixelFont;
 
 public class SideBit extends Group{
-	static final int SIZE = 28;
-	int[] digits;
+	static final int SIZE = 36;
+	ArrayList<Integer> digits;
 	int horizontal;
-	public SideBit(int[] digits, int position, int horizontal, float height) {
-		this.digits=digits;
-		this.digits= new int[]{1,3,2};
+	public SideBit(int position, int horizontal, float height) {
 		this.horizontal=horizontal;
 		if(horizontal==0){
 			
@@ -32,7 +32,7 @@ public class SideBit extends Group{
 	
 	@Override
 	public void draw(Batch batch, float parentAlpha) {
-		batch.setColor(Colours.BROWN);
+		batch.setColor(Colours.ORANGE);
 		Draw.fillActor(batch, this);
 		
 		batch.setColor(Colours.DARK);
@@ -40,13 +40,13 @@ public class SideBit extends Group{
 		int letterDist = 8;
 		int letterGap = 6;
 		if(horizontal==1){
-			for(int i=0;i<digits.length;i++){
-				TannPixelFont.font.draw(batch, ""+digits[digits.length-i-1], getX()+getWidth()-letterDist*(i)-letterGap, getY()+getHeight()/2, Align.center);
+			for(int i=0;i<digits.size();i++){
+				TannPixelFont.font.draw(batch, ""+digits.get(digits.size()-i-1), getX()+getWidth()-letterDist*(i)-letterGap, getY()+getHeight()/2, Align.center);
 			}
 		}
 		else{
-			for(int i=0;i<digits.length;i++){
-				TannPixelFont.font.draw(batch, ""+digits[i], getX()+getWidth()/2, getY()+getHeight()-letterDist*(i)-letterGap, Align.center);
+			for(int i=0;i<digits.size();i++){
+				TannPixelFont.font.draw(batch, ""+digits.get(i), getX()+getWidth()/2, getY()+letterDist*(i)+letterGap, Align.center);
 			}
 		}
 		

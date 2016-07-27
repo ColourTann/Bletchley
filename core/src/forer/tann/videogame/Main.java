@@ -29,6 +29,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import forer.tann.videogame.puzzles.crossword.Crossword;
 import forer.tann.videogame.puzzles.crossword.CrosswordScreen;
 import forer.tann.videogame.puzzles.picross.PicrossScreen;
+import forer.tann.videogame.puzzles.wordsearch.WordSearchScreen;
 import forer.tann.videogame.screens.Screen;
 import forer.tann.videogame.screens.dialogue.DialogueScreen;
 import forer.tann.videogame.screens.titleScreen.TitleScreen;
@@ -83,7 +84,6 @@ public class Main extends ApplicationAdapter {
 		setScale(scale);
 		
 		
-		screens.add(new PicrossScreen());
 		screens.add(new DialogueScreen("All was quiet at 62 Farwell Road (click to continue)", "quiet"));
 		screens.add(new DialogueScreen("John was in his favourite chair", "sitting"));
 		screens.add(new DialogueScreen("Clank- thud. [tco]\"must be the paper\"[tcl], thought John", "post"));
@@ -100,21 +100,59 @@ public class Main extends ApplicationAdapter {
 		screens.add(new DialogueScreen("[tcb]\"We need you to join our team at\"", "car2"));
 		screens.add(new DialogueScreen("[tcb]\"Bletchley Park!\"", "bletchley2"));
 		screens.add(new DialogueScreen("[tco]\"But I've never cracked a code before!\"", "grandpa_path"));
-		screens.add(new DialogueScreen("[tcb]\"Nonesense! Let's just see how you do with this\"", "hand_envelope2"));
-		//nonograms x 2
+		screens.add(new DialogueScreen("[tcb]\"We found these on a german scientist\"", "papers"));
+		screens.add(new DialogueScreen("[tcb]\"But nobody can work out what it means.\"", "meeting"));
+		screens.add(new DialogueScreen("[tcb]\"Let's just see what you can do!\"", "hand_envelope2"));
+		screens.add(new PicrossScreen("gun"));
+		screens.add(new DialogueScreen("[tcb]\"A gun eh? Let's see what the second one is.\"", "hand_envelope"));
+		screens.add(new PicrossScreen("skull"));
+		screens.add(new DialogueScreen("[tcb]\"Hmm, poison and a gun... [tcl]POISON BULLETS!\"", "churchill_think"));
+		screens.add(new DialogueScreen("[tcb]\"We must invent antidote grenades immediately!\"", "writing"));
+		screens.add(new DialogueScreen("[tcb]\"But this is really amazing work, John!\"", "churchill_happy"));
+		screens.add(new DialogueScreen("[tcl]\"R..F..S..E..I...\"", "telephone_workers"));
+		screens.add(new DialogueScreen("[tcb]\"We just intercepted a top secret radio message\"", "secret"));
+		screens.add(new DialogueScreen("[tcb]\"What do you think?\"", "letters"));
+		screens.add(new DialogueScreen("[tco]\"Hmm... I think if we arrange it in a grid...\"", "grid"));
+		screens.add(new WordSearchScreen());
+		setScreen(screens.get(29));
+	}
+	
+	public enum Conspiracy{MoonBase, NukeBase, MoonNuke};
+	
+	public void addScreens(Conspiracy consp){
+		switch(consp){
+		case MoonBase:
+			screens.add(new DialogueScreen("[tco]\"Moon...Base?\"", "churchill_conspiracy"));
+			screens.add(new DialogueScreen("[tco]\"How did hitler get a base on the moon?\"", "moonbase"));
+			screens.add(new DialogueScreen("[tco]\"We must get there!\"", "rocket"));
+			break;
+		case MoonNuke:
+			screens.add(new DialogueScreen("[tco]\"Moon...Nuke?\"", "churchill_conspiracy"));
+			screens.add(new DialogueScreen("[tco]\"They're going to blow a chuck off the moon\"", "moon_explosion"));
+			screens.add(new DialogueScreen("[tco]\"and send it towards london!!\"", "moon_earth"));
+			
+			break;
+		case NukeBase:
+			screens.add(new DialogueScreen("[tco]\"Nuke...Base?\"", "churchill_conspiracy"));
+			screens.add(new DialogueScreen("[tco]\"They must have finally built one\"", "nuke"));
+			screens.add(new DialogueScreen("[tco]\"And they're planning on using it soon!\"", "nuke_explosion"));
+			break;
+		default:
+			break;
 		
-		//wordsearches x 2
-		
-		//nonograms x 2
-		
-		
-		
-		
-		
-		setScreen(screens.get(0));
-
-//		setScreen(screens.get(0));
-
+		}
+		addFinalScreens();
+	}
+	
+	public void addFinalScreens(){
+		screens.add(new DialogueScreen("[tco]\"We must stop them!\"", "churchill_think"));
+		screens.add(new DialogueScreen("The next day", "time"));
+		screens.add(new DialogueScreen("The war was won!", "peace"));
+		screens.add(new DialogueScreen("[tco]We can't let them know", "victory"));
+		screens.add(new DialogueScreen("[tco]That we're this good at solving puzzles", "victory2"));
+		screens.add(new DialogueScreen("[tco]We'll just say we used computers", "computers"));
+		screens.add(new DialogueScreen("", "end"));
+		//final boss crossword!
 	}
 
 	public void nextScreen(){
@@ -164,7 +202,6 @@ public class Main extends ApplicationAdapter {
 	public void setScreen(final Screen screen, TransitionType type, Interpolation interp, float speed){
 		if(screen==currentScreen)return;
 		setScreen(screen);
-		screen.setActive(false);
 		RunnableAction ra = Actions.run(new Runnable() {
 			public void run() {
 				screen.setActive(true);
@@ -193,9 +230,11 @@ public class Main extends ApplicationAdapter {
 	}
 
 	public void setScreen(Screen screen){
+		screen.setActive(true);
 		if(previousScreen!=null){
 			previousScreen.clearActions();
 			previousScreen.remove();
+			currentScreen.setActive(false);
 		}
 		if(currentScreen!=null){
 			currentScreen.clearActions();

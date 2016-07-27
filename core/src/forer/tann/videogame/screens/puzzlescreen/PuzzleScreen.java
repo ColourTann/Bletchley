@@ -66,4 +66,6 @@ public abstract class PuzzleScreen extends Screen{
 		Draw.setBatchColour(batch, Colours.DARK, 1-getColor().a);
 		Draw.fillActor(batch, this);
 	}
+	
+	
 }

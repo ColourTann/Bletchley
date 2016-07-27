@@ -22,11 +22,11 @@ public class PicrossTile extends Group{
 		On, Off, Cross, DeCross
 	}
 
-	public PicrossTile(int x, int y) {
+	public PicrossTile(int x, int y, PicrossTileState correct) {
 		setSize(SIZE, SIZE);
 		setPosition(GAP+x*(SIZE+GAP), GAP+y*(SIZE+GAP));
+		correctState = correct;
 		addListener(new InputListener(){
-
 
 			@Override
 			public void enter(InputEvent event, float x, float y, int pointer, com.badlogic.gdx.scenes.scene2d.Actor fromActor) {
@@ -89,7 +89,12 @@ public class PicrossTile extends Group{
 		if(target==null) return;
 		if(target==PicrossTileState.On && state == PicrossTileState.Cross) return;
 		if(target==PicrossTileState.Cross && state == PicrossTileState.On) return;
-		state= target;
+		setState(target);
+	}
+	
+	void setState(PicrossTileState state){
+		this.state=state;
+		PicrossScreen.getCurrentScreen().checkComplete();
 	}
 
 	@Override
@@ -114,6 +119,17 @@ public class PicrossTile extends Group{
 		
 		}
 		super.draw(batch, parentAlpha);
+	}
+
+	public boolean isCorrect() {
+		if(correctState==PicrossTileState.On){
+			return state==PicrossTileState.On;
+		}
+		if(correctState==PicrossTileState.Off){
+			return state!=PicrossTileState.On;
+		}
+		System.out.println("big ol error");
+		return false;
 	}
 
 }
