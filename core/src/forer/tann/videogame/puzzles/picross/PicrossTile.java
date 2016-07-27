@@ -1,52 +1,119 @@
 package forer.tann.videogame.puzzles.picross;
 
-import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
+
 import forer.tann.videogame.utilities.graphics.Colours;
 import forer.tann.videogame.utilities.graphics.Draw;
 
-/**
- * Created by Forer on 7/11/2016.
- */
-public class PicrossTile extends Actor {
-    static final int BORDER = 1;
-    static final int SIZE = 9;
-    int gridX, gridY;
-    boolean selected = false;
-    public PicrossTile(int x, int y) {
-        this.gridX=x;
-        this.gridY=y;
-        setSize(SIZE, SIZE);
-        setPosition(x*SIZE, y*SIZE);
-        addListener(new InputListener(){
-            @Override
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                System.out.println("you tapped on "+gridX+":"+gridY);
-                selected = !selected;
-                return super.touchDown(event, x, y, pointer, button);
-            }
-        });
-    }
 
-    @Override
-    public void draw(Batch batch, float parentAlpha) {
+public class PicrossTile extends Group{
+	public static final int SIZE = 13;
+	public static final int GAP = 1;
+	PicrossTileState correctState;
+	PicrossTileState state = PicrossTileState.Off;
+	boolean mouseOn;
+
+	public enum PicrossTileState{
+		On, Off, Cross, DeCross
+	}
+
+	public PicrossTile(int x, int y) {
+		setSize(SIZE, SIZE);
+		setPosition(GAP+x*(SIZE+GAP), GAP+y*(SIZE+GAP));
+		addListener(new InputListener(){
 
 
-        batch.setColor(Colours.DARK);
-        Draw.fillRectangle(batch, getX(), getY(), getWidth(), getHeight());
+			@Override
+			public void enter(InputEvent event, float x, float y, int pointer, com.badlogic.gdx.scenes.scene2d.Actor fromActor) {
+				if(pointer!=0) return;
+				setValue();
+			};
 
-        Color selectionColor = Colours.LIGHT;
-        if (selected) selectionColor = Colours.random();
-        batch.setColor(selectionColor);
-        Draw.fillRectangle(batch, getX()+BORDER, getY()+BORDER, getWidth()-BORDER*2, getHeight()-BORDER*2);
-        super.draw(batch, parentAlpha);
-    }
+			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+				switch(button){
+				//left click
+				case 0: 
+					switch(state){
+					case Cross:
+						break;
+					case Off:
+						PicrossScreen.getCurrentScreen().picross.setupDrag(PicrossTileState.On); 
+						break;
+					case On:
+						PicrossScreen.getCurrentScreen().picross.setupDrag(PicrossTileState.Off); 
+						break;
+					default:
+						break;
+					}
+					break;
 
-    static public int getSize() {
-        return SIZE;
-    }
+				//right click
+				case 1:	
+					switch(state){
+					case Cross:
+						PicrossScreen.getCurrentScreen().picross.setupDrag(PicrossTileState.DeCross); 
+						break;
+					case Off:
+						PicrossScreen.getCurrentScreen().picross.setupDrag(PicrossTileState.Cross); 
+						break;
+					case On:
+						break;
+					default:
+						break;
+
+					}
+					break;
+				}
+				setValue();
+				return true;
+			}
+
+			@Override
+			public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+				PicrossScreen.getCurrentScreen().picross.setupDrag(null);
+			}
+		});
+	}
+
+	void setValue(){
+		PicrossTileState target =PicrossScreen.getCurrentScreen().picross.getValueToSet(); 
+		if(target==PicrossTileState.DeCross){
+			if(state == PicrossTileState.On) return;
+			target = PicrossTileState.Off;
+		}
+		if(target==null) return;
+		if(target==PicrossTileState.On && state == PicrossTileState.Cross) return;
+		if(target==PicrossTileState.Cross && state == PicrossTileState.On) return;
+		state= target;
+	}
+
+	@Override
+	public void draw(Batch batch, float parentAlpha) {
+		batch.setColor(Colours.LIGHT);
+		Draw.fillActor(batch, this);
+		
+		switch(state){
+		case Cross:
+			batch.setColor(Colours.DARK);
+			Draw.drawLine(batch, getX(), getY(), getX()+getWidth(), getY()+getHeight(), 1);
+			Draw.drawLine(batch, getX()+getWidth(), getY(), getX(), getY()+getHeight(), 1);
+			break;
+		case Off:
+			break;
+		case On:
+			batch.setColor(Colours.DARK);
+			Draw.fillActor(batch, this);
+			break;
+		default:
+			break;
+		
+		}
+		super.draw(batch, parentAlpha);
+	}
 
 }

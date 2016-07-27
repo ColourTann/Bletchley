@@ -29,7 +29,6 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import forer.tann.videogame.puzzles.crossword.Crossword;
 import forer.tann.videogame.puzzles.crossword.CrosswordScreen;
 import forer.tann.videogame.puzzles.picross.PicrossScreen;
-import forer.tann.videogame.screens.PuzzleTestScreen;
 import forer.tann.videogame.screens.Screen;
 import forer.tann.videogame.screens.dialogue.DialogueScreen;
 import forer.tann.videogame.screens.titleScreen.TitleScreen;
@@ -84,19 +83,35 @@ public class Main extends ApplicationAdapter {
 		setScale(scale);
 		
 		
-		
+		screens.add(new PicrossScreen());
 		screens.add(new DialogueScreen("All was quiet at 62 Farwell Road (click to continue)", "quiet"));
 		screens.add(new DialogueScreen("John was in his favourite chair", "sitting"));
-		screens.add(new DialogueScreen("Clank- thud. \"must be the paper\", thought John", "post"));
-		screens.add(new DialogueScreen("\"Sounds like it's getting bad out there\"", "headline"));
-		screens.add(new DialogueScreen("\"While I'm safe here, out in the countryside\"", "hands"));
-		screens.add(new DialogueScreen("John always did the crossword", "crossword"));
+		screens.add(new DialogueScreen("Clank- thud. [tco]\"must be the paper\"[tcl], thought John", "post"));
+		screens.add(new DialogueScreen("[tco]\"Sounds like it's getting bad out there\"", "headline"));
+		screens.add(new DialogueScreen("[tco]\"While I'm safe here, out in the countryside\"", "hands"));
+		screens.add(new DialogueScreen("John always did the crossword", "crossword3"));
 		screens.add(CrosswordScreen.get());
 		screens.add(new DialogueScreen("'If you can solve this, please call this number'", "crossword_completed"));
 		screens.add(new DialogueScreen("'A great opportunity awaits'", "phone"));
-		screens.add(new DialogueScreen("\"And you say you got 'feign' for 15 across?\"", "churchill_phone"));
+		screens.add(new DialogueScreen("[tcb]\"And you say you got 'horde' for 6 down?\"", "churchill_phone"));
 		screens.add(new DialogueScreen("*TAP-A-TAP-A-TAP*", "agent"));
-		setScreen(screens.get(5));
+		screens.add(new DialogueScreen("[tcb]\"You're just the man we've been looking for!\"", "churchill_sepia"));
+		screens.add(new DialogueScreen("[tcb]\"We're completely stumped on these nazi codes\"", "car"));
+		screens.add(new DialogueScreen("[tcb]\"We need you to join our team at\"", "car2"));
+		screens.add(new DialogueScreen("[tcb]\"Bletchley Park!\"", "bletchley2"));
+		screens.add(new DialogueScreen("[tco]\"But I've never cracked a code before!\"", "grandpa_path"));
+		screens.add(new DialogueScreen("[tcb]\"Nonesense! Let's just see how you do with this\"", "hand_envelope2"));
+		//nonograms x 2
+		
+		//wordsearches x 2
+		
+		//nonograms x 2
+		
+		
+		
+		
+		
+		setScreen(screens.get(0));
 
 //		setScreen(screens.get(0));
 

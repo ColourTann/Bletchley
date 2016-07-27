@@ -7,12 +7,13 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 
+import forer.tann.videogame.Main;
 import forer.tann.videogame.utilities.graphics.InputBlocker;
 
 public abstract class Screen extends Group{
 	private boolean active = true;
 	public Screen() {
-		setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+		setSize(Main.width, Main.height);
 	}
 	
 	public abstract void keyPressed(int keycode);

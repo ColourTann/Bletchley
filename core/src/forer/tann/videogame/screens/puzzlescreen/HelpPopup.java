@@ -12,7 +12,7 @@ import forer.tann.videogame.utilities.graphics.Draw;
 import forer.tann.videogame.utilities.graphics.TextRenderer;
 
 public class HelpPopup extends Group{
-	static final int WIDTH = 100;
+	static final int WIDTH = 200;
 	static final int GAP = 6;
 	public HelpPopup(String text) {
 		TextRenderer tr = new TextRenderer(text, WIDTH-GAP*2);
