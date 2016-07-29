@@ -106,11 +106,30 @@ public class Picross extends Puzzle{
 		for(int x=0;x<tilesAcross;x++){
 			for(int y=0;y<tilesDown;y++){
 				if(!tiles[x][y].isCorrect()){
+					System.out.println(x+":"+y);
 					return false;
 				}
 			}
 		}
 		return true;
+	}
+
+
+	public void hint() {
+		int completed=0;
+		for(int x=0;x<tilesAcross;x++){
+			for(int y=0;y<tilesDown;y++){
+				PicrossTile t = tiles[x][y];
+				if(t.state==PicrossTileState.On && t.correctState==PicrossTileState.Off){
+					t.setState(PicrossTileState.Off);
+				}
+				if(completed<3 && t.state==PicrossTileState.Off && t.correctState==PicrossTileState.On){
+					t.setState(PicrossTileState.On);
+					completed++;
+				}
+				
+			}
+		}
 	}
 
 

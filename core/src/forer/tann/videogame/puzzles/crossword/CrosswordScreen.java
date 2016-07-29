@@ -22,7 +22,7 @@ public class CrosswordScreen extends PuzzleScreen{
 	}
 	
 	private CrosswordScreen() {
-		super("[tco]Crossword[n][nh][tcl]Try to figure out the clues. Click a coloured tile or a clue to start typing your answer.");
+		super("[tco]Crossword[n][nh][tcl]Try to figure out the clues. Click a coloured tile or a clue to start typing your answer.", "Solve a random unsolved clue?");
 		addActor(crossword = Crossword.get());
 		gap = (int) ((Main.width-crossword.getWidth()-CrosswordClue.WIDTH)/3);
 		crossword.setPosition(gap*2 + CrosswordClue.WIDTH, (int)((Main.height-Options.HEIGHT)/2-crossword.getHeight()/2));
@@ -96,5 +96,6 @@ public class CrosswordScreen extends PuzzleScreen{
 				break;
 			}
 		}
+		checkComplete();
 	}
 }

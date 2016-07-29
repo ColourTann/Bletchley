@@ -11,15 +11,17 @@ public abstract class PuzzleScreen extends Screen{
 	HelpPopup help;
 	HintPopup hint;
 	SkipPopup skip;
-	public PuzzleScreen(String helpText) {
+	public PuzzleScreen(String helpText, String clueText) {
 		help = new HelpPopup(helpText);
 		help.setPosition((int)(Main.width/2-help.getWidth()/2), (int)(Main.height/2-help.getHeight()/2));
 		skip = new SkipPopup();
 		skip.setPosition((int)(Main.width/2-skip.getWidth()/2), (int)(Main.height/2-skip.getHeight()/2));
-		hint= new HintPopup();
+		if(clueText!=null){
+		hint= new HintPopup(clueText);
 		hint.setPosition((int)(Main.width/2-hint.getWidth()/2), (int)(Main.height/2-hint.getHeight()/2));
+		}
 		
-		Options o = new Options();
+		Options o = new Options(clueText!=null);
 		addActor(o);
 		o.setPosition(Main.width-o.getWidth(), Main.height-o.getHeight());
 	}

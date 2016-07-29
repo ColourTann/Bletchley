@@ -10,7 +10,7 @@ public class Options extends Group{
 	static final int BUTTON_SIZE = 17;
 	static final int BUTTON_GAP = 2;
 	public static final int HEIGHT = BUTTON_SIZE+BUTTON_GAP*2;
-	public Options() {
+	public Options(boolean clue) {
 		setSize(BUTTON_SIZE*3 + BUTTON_GAP*4, HEIGHT);
 		Button skip = new Button(Main.atlas.findRegion("skip"));
 		Button help = new Button(Main.atlas.findRegion("help"));
@@ -18,7 +18,9 @@ public class Options extends Group{
 		help.setPosition(BUTTON_GAP, BUTTON_GAP);
 		hint.setPosition(BUTTON_GAP*2 + BUTTON_SIZE, BUTTON_GAP);
 		skip.setPosition(BUTTON_GAP*3 + BUTTON_SIZE*2, BUTTON_GAP);
-		addActor(skip); addActor(help); addActor(hint);
+		addActor(skip); 
+		addActor(help); 
+		if(clue) addActor(hint);
 		
 		help.setClickAction(new Runnable() {
 			public void run() {

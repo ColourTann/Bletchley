@@ -92,7 +92,7 @@ public class PicrossTile extends Group{
 		setState(target);
 	}
 	
-	void setState(PicrossTileState state){
+	public void setState(PicrossTileState state){
 		this.state=state;
 		PicrossScreen.getCurrentScreen().checkComplete();
 	}

@@ -14,9 +14,9 @@ import forer.tann.videogame.utilities.graphics.TextRenderer;
 
 public class HintPopup extends Group{
 	static final int GAP = 4;
-	public HintPopup() {
+	public HintPopup(String clueText) {
 		
-		TextRenderer tr = new TextRenderer("[glasses] Grandad's Intuition [glasses][n][nh]Solve a random unsolved clue?[nq]", 180);
+		TextRenderer tr = new TextRenderer("[glasses] Grandad's Intuition [glasses][n][nh]"+clueText+"[nq]", 180);
 		setWidth(tr.getWidth()+GAP*2);
 		addActor(tr);
 		

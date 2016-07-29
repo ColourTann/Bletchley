@@ -11,7 +11,9 @@ public class WordSearchScreen extends PuzzleScreen{
 	WordSearchInput[] inputs = new WordSearchInput[2];
 	
 	public WordSearchScreen() {
-		super("WordSearch");
+		super("WordSearch[n][n]"
+				+ "Find hidden words in the grid. Click and drag to make a word. You can make words backwards!",
+				null);
 		WordSearch w = new WordSearch();
 		w.setPosition((int)(getHeight()/2-w.getHeight()/2), (int)(getHeight()/2-w.getHeight()/2));
 		addActor(w);

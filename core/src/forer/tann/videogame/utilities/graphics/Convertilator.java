@@ -29,13 +29,8 @@ public class Convertilator {
 	static ArrayList<Integer> positions = new ArrayList<Integer>();
 	static long l;
 	
-	private static void time(String s){
-		System.out.println(s+": "+(System.currentTimeMillis()-l));
-		l = System.currentTimeMillis();
-	}
 	public static void convertilate(FileHandle f){
-		
-		time("Start "+f.nameWithoutExtension());
+		System.out.println(f.nameWithoutExtension());
 		//setting up all the data//
 		Texture t = new Texture(f);
 		sourceWidth = t.getWidth();
@@ -44,7 +39,6 @@ public class Convertilator {
 		for(int x=0;x<RESULT_WIDTH*RESULT_HEIGHT;x++){
 			positions.add(x);
 		}
-		time("1");
 //		Collections.shuffle(positions);
 
 		bonuses = new float[RESULT_WIDTH][RESULT_HEIGHT][3];
@@ -54,7 +48,6 @@ public class Convertilator {
 		Pixmap resultMap = new Pixmap(RESULT_WIDTH, RESULT_HEIGHT, Format.RGBA8888);
 		float widthRatio = sourceMap.getWidth()/(float)resultMap.getWidth();
 		float heightRatio = sourceMap.getWidth()/(float)resultMap.getWidth();
-		time("2");
 
 		//load the data into a byte array to avoid io every check//
 		ByteBuffer allSourcePixels = sourceMap.getPixels();
@@ -73,7 +66,6 @@ public class Convertilator {
 				sourceColours[x][y] = getColour(x, y, allColours);
 			}
 		}
-		time("3");
 
 
 		//		chooseBestColours(4);
@@ -96,10 +88,8 @@ public class Convertilator {
 			resultMap.setColor(getBestFit(targetX, targetY));
 			resultMap.drawPixel(targetX, targetY);
 		}
-		time("4");
 		//output the result in the desktop folder
 		PixmapIO.writePNG(Gdx.files.local("../images/pixelimages/"+f.name().split("\\.")[0]+".png"), resultMap);
-		time("5");
 	}
 
 	private static void chooseBestColours(int num) {

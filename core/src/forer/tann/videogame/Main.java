@@ -98,7 +98,7 @@ public class Main extends ApplicationAdapter {
 		screens.add(new DialogueScreen("[tcb]\"You're just the man we've been looking for!\"", "churchill_sepia"));
 		screens.add(new DialogueScreen("[tcb]\"We're completely stumped on these nazi codes\"", "car"));
 		screens.add(new DialogueScreen("[tcb]\"We need you to join our team at\"", "car2"));
-		screens.add(new DialogueScreen("[tcb]\"Bletchley Park!\"", "bletchley2"));
+		screens.add(new DialogueScreen("[tcb]\"Bletchley Park!\"", "bletch"));
 		screens.add(new DialogueScreen("[tco]\"But I've never cracked a code before!\"", "grandpa_path"));
 		screens.add(new DialogueScreen("[tcb]\"We found these on a german scientist\"", "papers"));
 		screens.add(new DialogueScreen("[tcb]\"But nobody can work out what it means.\"", "meeting"));
@@ -114,7 +114,7 @@ public class Main extends ApplicationAdapter {
 		screens.add(new DialogueScreen("[tcb]\"What do you think?\"", "letters"));
 		screens.add(new DialogueScreen("[tco]\"Hmm... I think if we arrange it in a grid...\"", "grid"));
 		screens.add(new WordSearchScreen());
-		setScreen(screens.get(29));
+		setScreen(screens.get(0), true);
 	}
 	
 	public enum Conspiracy{MoonBase, NukeBase, MoonNuke};
@@ -201,7 +201,7 @@ public class Main extends ApplicationAdapter {
 	public enum TransitionType{LEFT, RIGHT, FADE};
 	public void setScreen(final Screen screen, TransitionType type, Interpolation interp, float speed){
 		if(screen==currentScreen)return;
-		setScreen(screen);
+		setScreen(screen, false);
 		RunnableAction ra = Actions.run(new Runnable() {
 			public void run() {
 				screen.setActive(true);
@@ -229,8 +229,8 @@ public class Main extends ApplicationAdapter {
 		previousScreen.addAction(Actions.after(Actions.removeActor()));
 	}
 
-	public void setScreen(Screen screen){
-		screen.setActive(true);
+	public void setScreen(Screen screen, boolean instant){
+		screen.setActive(instant);
 		if(previousScreen!=null){
 			previousScreen.clearActions();
 			previousScreen.remove();
