@@ -38,10 +38,10 @@ public class CrosswordScreen extends PuzzleScreen{
 	}
 	
 	public void setupClues(){
+		addClue(new CrosswordClue("[pco][->] A sport in a hurry (6)", Crossword.get().getTile(9, 2), 1));
+		addClue(new CrosswordClue("[pco][v] Making a sound as a bell (8)", Crossword.get().getTile(12, 7), 1));
 		addClue(new CrosswordClue("[pcb][->] Tree (3)", Crossword.get().getTile(8, 5), 0));
 		addClue(new CrosswordClue("[pcb][v] \"The war\" (anag.) (6)", Crossword.get().getTile(8, 8), 0));
-		addClue(new CrosswordClue("[pco][->] Scented (8)", Crossword.get().getTile(7, 12), 1));
-		addClue(new CrosswordClue("[pco][v] A disagreeable company (5)", Crossword.get().getTile(8, 14), 1));
 		
 		layoutClues();
 	}

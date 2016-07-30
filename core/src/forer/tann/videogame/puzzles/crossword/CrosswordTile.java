@@ -11,7 +11,8 @@ import forer.tann.videogame.utilities.graphics.Draw;
 import forer.tann.videogame.utilities.graphics.font.TannFont;
 
 public class CrosswordTile extends Actor{
-	static final int SIZE = 9;
+	static final int WIDTH = 11;
+	static final int HEIGHT = 11;
 	int gridX, gridY;
 	public int number;
 	public CrosswordClue clue;
@@ -26,8 +27,8 @@ public class CrosswordTile extends Actor{
 	private void setup(int x, int y){
 		this.gridX=x;
 		this.gridY=y;
-		setSize(SIZE, SIZE);
-		setPosition(Crossword.GAP+x*(SIZE+Crossword.GAP), Crossword.GAP+y*(SIZE+Crossword.GAP));
+		setSize(WIDTH, HEIGHT);
+		setPosition(Crossword.GAP+x*(WIDTH+Crossword.GAP), Crossword.GAP+y*(HEIGHT+Crossword.GAP));
 		addListener(new InputListener(){
 			@Override
 			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {

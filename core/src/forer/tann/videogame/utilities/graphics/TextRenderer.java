@@ -61,6 +61,7 @@ public class TextRenderer extends Actor{
 
 	private void setup(String text, TannFont font, int boxWidth, int align, Color colour){
 		this.align=align;
+		bonusHeight = align==Align.center?4:2;
 		this.font=font;
 		this.text=text;
 		this.wrapWidth=boxWidth;
@@ -77,10 +78,11 @@ public class TextRenderer extends Actor{
 	@Override
 	public void draw(Batch batch, float parentAlpha) {
 		//		font.draw(batch, "TOIJEOIJ OIDSJA OISDJ OIASJ DOIJSA DOI", 50, 50);
-		Draw.draw(batch, buffer.getColorBufferTexture(), (int)getX(), (int)getY()+getHeight(), 1, -1);
+		Draw.draw(batch, buffer.getColorBufferTexture(), (int)getX(), (int)(getY()+getHeight()), 1, -1);
 		super.draw(batch, parentAlpha);
 	}
-
+	//because of overhangs
+	int bonusHeight;
 	Array<Line> lines = new Array<Line>();
 	SpriteBatch batch = new SpriteBatch();
 	OrthographicCamera bufferCam;
@@ -234,9 +236,12 @@ public class TextRenderer extends Actor{
 		//now setup buffer and draw to it
 		batch.setColor(defaultColour);
 		int bufferWidth=(int)(wrapWidth);
-		int bufferHeight=(int) (currentY);
+		int bufferHeight=(int) (currentY)+bonusHeight;
 
 		if(bufferWidth%2!=0)bufferWidth++;
+		
+		
+		
 		if(bufferHeight%2!=0){
 			bufferHeight++;
 			bonusBonusY=-1;
@@ -323,7 +328,7 @@ public class TextRenderer extends Actor{
 			if(align == Align.center){
 				bonusX=(wrapWidth-width)/2;
 			}
-			for(TextPosition tp: textPositions) tp.render(batch, bonusX, y);
+			for(TextPosition tp: textPositions) tp.render(batch, bonusX, y+bonusHeight);
 		}
 	}
 
@@ -349,12 +354,12 @@ public class TextRenderer extends Actor{
 			if(tr!=null) {
 				Color old = batch.getColor();
 				batch.setColor(colour);
-				batch.draw(tr, (int)(x+bonusX), (int)(buffer.getHeight()-y+font.getLineHeight()/2f-tr.getRegionHeight()/2f-bonusY+bonusBonusY));
+				batch.draw(tr, (int)(x+bonusX), (int)(buffer.getHeight()-y+font.getLineHeight()/2f-tr.getRegionHeight()/2f-bonusY+bonusBonusY+bonusHeight-.5f));
 				batch.setColor(old);
 			}
 			else {
 				batch.setColor(colour);
-				font.draw(batch, text, (int)(x+bonusX), (int)(buffer.getHeight()-y-bonusY+bonusBonusY+1));
+				font.draw(batch, text, (int)(x+bonusX), (int)(buffer.getHeight()-y-bonusY+bonusBonusY+1+bonusHeight));
 			}
 		}
 	}

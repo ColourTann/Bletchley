@@ -14,8 +14,8 @@ import forer.tann.videogame.utilities.graphics.TextRenderer;
 import forer.tann.videogame.utilities.graphics.font.TannFont;
 
 public class DialogueScreen extends Screen{
-	public static final int GAP = 35;
-	public static final int HORIZONTAL_GAP = 3;
+	public static final int GAP = 45;
+	public static final int HORIZONTAL_GAP = 8;
 	TextureRegion image;
 	TextRenderer text;
 	Runnable r;

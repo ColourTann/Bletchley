@@ -110,7 +110,11 @@ public class TannPixelFont extends TannFont{
 				System.out.println("character not in font: "+c);
 				continue;
 			}
-			Draw.draw(batch, t, x, y, scaled?getScale():scale, scaled?getScale():scale);
+			int bonusY=0;
+			if(c>='a' && c<='z'){
+				if(align!=Align.center)bonusY=-2*getScale();
+			}
+			Draw.draw(batch, t, x, y+bonusY, scaled?getScale():scale, scaled?getScale():scale);
 			x+=t.getRegionWidth()*getScale()+getKerning();
 		}
 	}
@@ -143,13 +147,13 @@ public class TannPixelFont extends TannFont{
 		return heights[0]*getScale();
 	}
 	public int getLineHeight(){
-		return (heights[0]+2)*getScale();
+		return (heights[0]+3)*getScale();
 	}
 	public int getSpaceWidth(){
-		return 8*getScale();
+		return 4*getScale();
 	}
 	public int getKerning(){
-		return 2*getScale();
+		return 1*getScale();
 	}
 
 	int getScale(){

@@ -10,7 +10,7 @@ import forer.tann.videogame.utilities.graphics.font.TannFont;
 
 public class WordSearchInput extends Group{
 
-	static final int HEIGHT = 16, WIDTH=65;
+	static final int HEIGHT = 20, WIDTH=65;
 	public String word="";
 	
 	public WordSearchInput() {
@@ -22,7 +22,7 @@ public class WordSearchInput extends Group{
 		batch.setColor(Colours.BROWN);
 		Draw.fillActor(batch, this);
 		batch.setColor(Colours.LIGHT);
-		TannFont.bigFont.draw(batch, word, getX()+2, getY()+getHeight()/2-TannFont.bigFont.getHeight()/2);
+		TannFont.bigFont.draw(batch, word.toUpperCase(), getX()+2, getY()+getHeight()/2-TannFont.bigFont.getHeight()/2);
 		super.draw(batch, parentAlpha);
 	}
 

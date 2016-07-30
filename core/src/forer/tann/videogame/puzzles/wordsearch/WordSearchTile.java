@@ -12,7 +12,7 @@ import forer.tann.videogame.utilities.graphics.Draw;
 import forer.tann.videogame.utilities.graphics.font.TannFont;
 
 public class WordSearchTile extends Group{
-	public static final int SIZE = 16;
+	public static final int SIZE = 22;
 	public static final int GAP = 1;
 	public int x, y;
 	public WordSearchTile(int x, int y) {
@@ -58,7 +58,7 @@ public class WordSearchTile extends Group{
 		}
 		Draw.fillActor(batch, this);
 		batch.setColor(Colours.DARK);
-		TannFont.bigFont.draw(batch, content+"", getX()+getWidth()/2, getY()+getHeight()/2, Align.center);
+		TannFont.bigFont.draw(batch, (content+"").toUpperCase(), getX()+getWidth()/2, getY()+getHeight()/2, Align.center);
 		super.draw(batch, parentAlpha);
 	}
 	

@@ -63,7 +63,7 @@ public class PauseScreen extends Group{
 				batch.setColor(Colours.ORANGE);
 				Draw.drawRectangle(batch, getX(), getY(), getWidth(), getHeight(), 1);
 				batch.setColor(Colours.LIGHT);
-				TannFont.font.draw(batch, "music attributions", getX()+getWidth()/2, getY()+getHeight()/2, Align.center);
+				TannFont.font.draw(batch, "Music Attributions", getX()+getWidth()/2, getY()+getHeight()/2, Align.center);
 			}
 		};
 		a.setSize(100, 11);
@@ -88,7 +88,7 @@ public class PauseScreen extends Group{
 	}
 	
 	private void addScaleButton(final int scale, int x, int y, int width){
-		Button t = new Button("X"+scale, width);
+		Button t = new Button("x"+scale, width);
 		t.setClickAction(new Runnable() {
 			@Override
 			public void run() {
@@ -118,7 +118,7 @@ public class PauseScreen extends Group{
 	
 	@Override
 	public void draw(Batch batch, float parentAlpha) {
-		batch.setColor(Colours.LIGHT);
+		batch.setColor(Colours.BROWN);
 		Draw.fillRectangle(batch, getX(), getY(), getWidth(), getHeight());
 		
 		batch.setColor(Colours.ORANGE);

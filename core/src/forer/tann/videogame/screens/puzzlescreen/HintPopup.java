@@ -16,11 +16,11 @@ public class HintPopup extends Group{
 	static final int GAP = 4;
 	public HintPopup(String clueText) {
 		
-		TextRenderer tr = new TextRenderer("[glasses] Grandad's Intuition [glasses][n][nh]"+clueText+"[nq]", 180);
+		TextRenderer tr = new TextRenderer("[nq][glasses] Grandad's Intuition [glasses][n][nh]"+clueText+"[nq]", 180);
 		setWidth(tr.getWidth()+GAP*2);
 		addActor(tr);
 		
-		Button yes = new Button("yes");
+		Button yes = new Button("Yes");
 		yes.addListener(new InputListener(){
 			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
 				PuzzleScreen ps =(PuzzleScreen) (Main.self.currentScreen);
@@ -29,7 +29,7 @@ public class HintPopup extends Group{
 				return false;
 			}
 		});
-		Button cancel = new Button("cancel");
+		Button cancel = new Button("Cancel");
 		cancel.addListener(new InputListener(){
 			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
 				Main.self.currentScreen.pop();

@@ -7,6 +7,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Pixmap.Format;
@@ -24,6 +25,7 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.RunnableAction;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
 import forer.tann.videogame.puzzles.crossword.Crossword;
@@ -43,7 +45,7 @@ import forer.tann.videogame.utilities.graphics.TextRenderer;
 import forer.tann.videogame.utilities.graphics.font.TannFont;
 
 public class Main extends ApplicationAdapter {
-	public static int width=300,height=200;
+	public static int width=300,height=210;
 	SpriteBatch batch;
 	Stage stage;
 	OrthographicCamera cam;
@@ -94,16 +96,17 @@ public class Main extends ApplicationAdapter {
 
 		setScale(scale);
 		
-		screens.add(new DialogueScreen("All was quiet at 62 Farwell Road (click to continue)", "quiet", new Runnable() {public void run() { Sounds.playMusic("Kai_Engel_-_07_-_May");}}));
+		
+		screens.add(new DialogueScreen("All was quiet at 62 Wren Road (click to continue)", "quiet", new Runnable() {public void run() { Sounds.playMusic("Kai_Engel_-_07_-_May");}}));
 		screens.add(new DialogueScreen("John was in his favourite chair", "sitting"));
-		screens.add(new DialogueScreen("Clank- thud. [tco]\"must be the paper\"[tcl], thought John", "post"));
+		screens.add(new DialogueScreen("Clank- thud. [tco]\"Must be the paper\"[tcl], thought John", "post"));
 		screens.add(new DialogueScreen("[tco]\"Sounds like it's getting bad out there\"", "headline"));
 		screens.add(new DialogueScreen("[tco]\"While I'm safe here, out in the countryside\"", "hands"));
 		screens.add(new DialogueScreen("John always did the crossword", "crossword3"));
 		screens.add(CrosswordScreen.get());
 		screens.add(new DialogueScreen("'If you can solve this, please call this number'", "crossword_completed", new Runnable() {public void run() { Sounds.playMusic("King_Olivers_Creole_Jazz_Band_-_Snake_Rag");}}));
 		screens.add(new DialogueScreen("'A great opportunity awaits'", "phone"));
-		screens.add(new DialogueScreen("[tcb]\"And you say you got 'horde' for 6 down?\"", "churchill_phone"));
+		screens.add(new DialogueScreen("[tcb]\"And you say you got 'ash' for 13 across?\"", "churchill_phone"));
 		screens.add(new DialogueScreen("*TAP-A-TAP-A-TAP*", "agent"));
 		screens.add(new DialogueScreen("[tcb]\"You're just the man we've been looking for!\"", "churchill_sepia"));
 		screens.add(new DialogueScreen("[tcb]\"We're completely stumped on these nazi codes\"", "car"));
@@ -119,7 +122,7 @@ public class Main extends ApplicationAdapter {
 		screens.add(new DialogueScreen("[tcb]\"Hmm, poison and a gun... [tcl]POISON BULLETS!\"", "churchill_think", new Runnable() {public void run() { Sounds.playMusic("Eddie_Elkins_Orchestra_-_April_Showers");}}));
 		screens.add(new DialogueScreen("[tcb]\"We must invent antidote grenades immediately!\"", "writing"));
 		screens.add(new DialogueScreen("[tcb]\"But this is really amazing work, John!\"", "churchill_happy"));
-		screens.add(new DialogueScreen("[tcl]\"R..F..S..E..I...\"", "telephone_workers"));
+		screens.add(new DialogueScreen("[tcl]\"n...e...s...a...b...\"", "telephone_workers"));
 		screens.add(new DialogueScreen("[tcb]\"We just intercepted a top secret radio message\"", "secret"));
 		screens.add(new DialogueScreen("[tcb]\"What do you think?\"", "letters"));
 		screens.add(new DialogueScreen("[tco]\"Hmm... I think if we arrange it in a grid...\"", "grid"));
@@ -141,12 +144,11 @@ public class Main extends ApplicationAdapter {
 			screens.add(new DialogueScreen("[tco]\"Moon...Nuke?\"", "churchill_conspiracy"));
 			screens.add(new DialogueScreen("[tco]\"They're going to blow a chuck off the moon\"", "moon_explosion"));
 			screens.add(new DialogueScreen("[tco]\"and send it towards london!!\"", "moon_earth"));
-			
 			break;
 		case NukeBase:
 			screens.add(new DialogueScreen("[tco]\"Nuke...Base?\"", "churchill_conspiracy"));
-			screens.add(new DialogueScreen("[tco]\"They must have finally built one\"", "nuke"));
-			screens.add(new DialogueScreen("[tco]\"And they're planning on using it soon!\"", "nuke_explosion"));
+			screens.add(new DialogueScreen("[tco]\"They must have stolen a nuke from Einstein\"", "nuke"));
+			screens.add(new DialogueScreen("[tco]\"We must get it back before they use it!\"", "nuke_explosion"));
 			break;
 		default:
 			break;

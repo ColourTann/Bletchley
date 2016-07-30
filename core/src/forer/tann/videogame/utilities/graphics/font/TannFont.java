@@ -6,8 +6,8 @@ import forer.tann.videogame.Main;
 
 public abstract class TannFont {
 
-	public static TannPixelFont font = new TannPixelFont(Main.atlas.findRegion("fonts/font"), 1);
-	public static TannFont bigFont = new TannPixelFont(Main.atlas.findRegion("fonts/font"), 2);
+	public static TannPixelFont font = new TannPixelFont(Main.atlas.findRegion("fonts/font2"), 1);
+	public static TannFont bigFont = new TannPixelFont(Main.atlas.findRegion("fonts/font2"), 2);
 	public static TannFont biggerFont = new TannPixelFont(Main.atlas.findRegion("fonts/font"), 3);
 	public static TannFont biggestFont = new TannPixelFont(Main.atlas.findRegion("fonts/font"), 4);
 	

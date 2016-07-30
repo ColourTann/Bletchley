@@ -19,20 +19,20 @@ public class Crossword extends Puzzle{
 	CrosswordTile startTile;
 	CrosswordTile typingAt;
 	int typingRight;
-	
+
 	int width = 15;
 	int height = 15;
 	public static final int GAP = 1;
 	CrosswordTile[][] tiles = new CrosswordTile[width][height];
-	
+
 	private static Crossword self;
 	public static Crossword get(){
 		if(self==null) self = new Crossword();
 		return self;
 	}
-	
+
 	private Crossword() {
-		setSize(width*(CrosswordTile.SIZE+GAP)+GAP, height*(CrosswordTile.SIZE+GAP)+GAP);
+		setSize(width*(CrosswordTile.WIDTH+GAP)+GAP, height*(CrosswordTile.HEIGHT+GAP)+GAP);
 		addAnswers();
 	}
 
@@ -40,7 +40,7 @@ public class Crossword extends Puzzle{
 		addAnswer("troupe", 0, 14, 1, false);
 		addAnswer("shortcut", 7, 14, 1, false);
 		addAnswer("privet", 0, 12, 1, false);
-		addAnswer("aromatic", 7, 12, 1, true);
+		addAnswer("aromatic", 7, 12, 1, false);
 		addAnswer("trend", 0, 10, 1, false);
 		addAnswer("greatdeal", 6, 10, 1, false);
 		addAnswer("owe", 4, 9, 1, false);
@@ -52,14 +52,14 @@ public class Crossword extends Puzzle{
 		addAnswer("centrebit", 0, 4, 1, false);
 		addAnswer("token", 10, 4, 1, false);
 		addAnswer("lamedogs", 0, 2, 1, false);
-		addAnswer("racing", 9, 2, 1, false);
+		addAnswer("racing", 9, 2, 1, true);
 		addAnswer("silencer", 0, 0, 1, false);
 		addAnswer("alight", 9, 0, 1, false);
-		
+
 		addAnswer("tipstaff", 0, 14, 0, false);
 		addAnswer("oliveoil", 2, 14, 0, false);
 		addAnswer("pseudonym", 4, 14, 0, false);
-		addAnswer("horde", 8, 14, 0, true);
+		addAnswer("horde", 8, 14, 0, false);
 		addAnswer("remit", 10, 14, 0, false);
 		addAnswer("cutter", 12, 14, 0, false);
 		addAnswer("tackle", 14, 14, 0, false);
@@ -67,7 +67,7 @@ public class Crossword extends Puzzle{
 		addAnswer("ada", 9, 10, 0, false);
 		addAnswer("wreath", 8, 8, 0, true);
 		addAnswer("rightnail", 10,8, 0, false);
-		addAnswer("tinkling", 12, 7, 0, false);
+		addAnswer("tinkling", 12, 7, 0, true);
 		addAnswer("sennight", 14, 7, 0, false);
 		addAnswer("pie", 5, 6, 0, false);
 		addAnswer("scales", 0, 5, 0, false);
@@ -75,7 +75,7 @@ public class Crossword extends Puzzle{
 		addAnswer("rodin", 4, 4, 0, false);
 		addAnswer("bogie", 6, 4, 0, false);
 	}
-	
+
 	private CrosswordTile makeTile(int x, int y){
 		if(getTile(x, y)!=null) return getTile(x, y);
 		CrosswordTile tile = new CrosswordTile(x,y);
@@ -83,7 +83,7 @@ public class Crossword extends Puzzle{
 		addActor(tile);
 		return tile;
 	}
-	
+
 	private void addAnswer(String answer, int startX, int startY, int right, boolean hidden){
 		int dx=right;
 		int dy=-1+right;
@@ -96,18 +96,21 @@ public class Crossword extends Puzzle{
 		}
 		getTile(startX, startY).direction=right;
 	}
-	
+
 	public CrosswordTile getTile(int x, int y){
 		if(x<0||x>=width || y<0||y>=height) return null;
 		return tiles[x][y];
 	}
-	
+
 	public void keyPressed(int keycode) {
 		if(typingAt==null) return;
 		if(keycode==Input.Keys.BACKSPACE){
 			if(typingAt!=null){
 				CrosswordTile t = getTile(typingAt.gridX+typingRight*-1, typingAt.gridY+(-1+typingRight)*-1);
-				if(t!=null)setTypingTile(t);
+				if(t!=null){
+					if(!t.correct)t.letter="";
+					setTypingTile(t);
+				}
 			}
 			Sounds.playSound(SoundType.CrosswordLetter);
 		}
@@ -120,13 +123,25 @@ public class Crossword extends Puzzle{
 		if(typingAt!=null){
 			typingAt.type(key);
 			setTypingTile(getTile(typingAt.gridX+typingRight, typingAt.gridY+(-1+typingRight)));
+			boolean good = checkAnswer(startTile);
+			if(good){
+				deselectTyping();
+				return;
+			}
+//			return;
+			//			if(!good){
+			//				Sounds.playSound(SoundType.Bad);
+			//				resetLetters(startTile);
+			//						deselectTyping();
+			//			}
 		}
 		if(typingAt==null){
+			System.out.println("b");
 			boolean good = checkAnswer(startTile);
 			if(!good){
 				Sounds.playSound(SoundType.Bad);
 				resetLetters(startTile);
-						deselectTyping();
+				deselectTyping();
 			}
 		}
 		CrosswordScreen.get().checkComplete();
@@ -145,7 +160,7 @@ public class Crossword extends Puzzle{
 		}
 		return ok;
 	}
-	
+
 	public ArrayList<CrosswordTile> getTilesInClue(CrosswordTile start){
 		ArrayList<CrosswordTile> result = new ArrayList<CrosswordTile>();
 		for(int dx=0,dy=0;true;dx+=start.direction,dy+=(-1+start.direction)){
@@ -157,41 +172,49 @@ public class Crossword extends Puzzle{
 	}
 
 	public void startTyping(CrosswordTile tile) {
-		
-		if(tile.clue==null || tile.clue.complete)return;
+
+		if(tile.clue==null || tile.clue.complete){
+			return;
+		}
 		if(startTile==tile){
+			resetLetters(startTile);
 			deselectTyping();
 			return;
+		}
+		if(startTile!=null){
+			resetLetters(startTile);
+			deselectTyping();
+			//			return;
 		}
 		startTile=tile;
 		setTypingTile(tile);
 		this.typingRight=tile.direction;
 		resetLetters(tile);
 	}
-	
+
 	public void deselectTyping(){
 		startTile.setHighlight(false);
 		startTile=null;
 		setTypingTile(null);
 	}
-	
+
 	public void resetLetters(CrosswordTile start){
 		for(CrosswordTile t:getTilesInClue(start)){
 			t.type(' ');
 		}
 	}
-	
+
 	public void setTypingTile(CrosswordTile tile){
 		if(typingAt!=null){
 			typingAt.setHighlight(false);
 		}
 		this.typingAt=tile;
 		if(tile!=null){
-			
-		tile.setHighlight(true);
+
+			tile.setHighlight(true);
 		}
 	}
-	
+
 	@Override
 	public void draw(Batch batch, float parentAlpha) {
 		batch.setColor(Colours.DARK);

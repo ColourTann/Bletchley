@@ -1,6 +1,7 @@
 package forer.tann.videogame.screens.puzzlescreen;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 
 import forer.tann.videogame.Main;
 import forer.tann.videogame.screens.Screen;
@@ -57,7 +58,13 @@ public abstract class PuzzleScreen extends Screen{
 	public abstract void activateHint();
 
 	public void complete(){
-		Main.self.nextScreen();
+		addAction(Actions.delay(1.5f, Actions.run(new Runnable() {
+			
+			@Override
+			public void run() {
+				Main.self.nextScreen();
+			}
+		})));
 	}
 
 	public abstract void checkComplete();

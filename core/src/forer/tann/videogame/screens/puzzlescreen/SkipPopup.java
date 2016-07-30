@@ -18,7 +18,7 @@ public class SkipPopup extends Group{
 		setWidth(tr.getWidth()+GAP*2);
 		addActor(tr);
 
-		Button yes = new Button("yes");
+		Button yes = new Button("Yes");
 		yes.addListener(new InputListener(){
 			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
 				PuzzleScreen ps =(PuzzleScreen) (Main.self.currentScreen);
@@ -27,7 +27,7 @@ public class SkipPopup extends Group{
 				return false;
 			}
 		});
-		Button cancel = new Button("cancel");
+		Button cancel = new Button("Cancel");
 		cancel.addListener(new InputListener(){
 			public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
 				Main.self.currentScreen.pop();
