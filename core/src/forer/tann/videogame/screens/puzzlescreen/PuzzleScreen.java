@@ -14,19 +14,19 @@ public abstract class PuzzleScreen extends Screen{
 	public PuzzleScreen(String helpText, String clueText) {
 		help = new HelpPopup(helpText);
 		help.setPosition((int)(Main.width/2-help.getWidth()/2), (int)(Main.height/2-help.getHeight()/2));
-		skip = new SkipPopup();
-		skip.setPosition((int)(Main.width/2-skip.getWidth()/2), (int)(Main.height/2-skip.getHeight()/2));
 		if(clueText!=null){
-		hint= new HintPopup(clueText);
-		hint.setPosition((int)(Main.width/2-hint.getWidth()/2), (int)(Main.height/2-hint.getHeight()/2));
+			skip = new SkipPopup();
+			skip.setPosition((int)(Main.width/2-skip.getWidth()/2), (int)(Main.height/2-skip.getHeight()/2));
+			hint= new HintPopup(clueText);
+			hint.setPosition((int)(Main.width/2-hint.getWidth()/2), (int)(Main.height/2-hint.getHeight()/2));
 		}
-		
+
 		Options o = new Options(clueText!=null);
 		addActor(o);
 		o.setPosition(Main.width-o.getWidth(), Main.height-o.getHeight());
 	}
-	
-	
+
+
 	@Override
 	public void keyPressed(int keycode) {
 	}
@@ -39,7 +39,7 @@ public abstract class PuzzleScreen extends Screen{
 		addBlocker();
 		push(help);
 	}
-	
+
 	public void showHint() {
 		addBlocker();
 		push(hint);
@@ -49,17 +49,17 @@ public abstract class PuzzleScreen extends Screen{
 		addBlocker();
 		push(skip);
 	}
-	
+
 	public void activateSkip() {
 		Main.self.nextScreen();
 	}
 
 	public abstract void activateHint();
-	
+
 	public void complete(){
 		Main.self.nextScreen();
 	}
-	
+
 	public abstract void checkComplete();
 
 	@Override
@@ -68,6 +68,6 @@ public abstract class PuzzleScreen extends Screen{
 		Draw.setBatchColour(batch, Colours.DARK, 1-getColor().a);
 		Draw.fillActor(batch, this);
 	}
-	
-	
+
+
 }

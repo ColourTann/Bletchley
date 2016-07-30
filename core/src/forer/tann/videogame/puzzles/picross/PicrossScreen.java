@@ -2,6 +2,7 @@ package forer.tann.videogame.puzzles.picross;
 
 import forer.tann.videogame.Main;
 import forer.tann.videogame.screens.puzzlescreen.PuzzleScreen;
+import forer.tann.videogame.utilities.Sounds;
 
 public class PicrossScreen extends PuzzleScreen{
 
@@ -11,7 +12,7 @@ public class PicrossScreen extends PuzzleScreen{
 	}
 	
 	public Picross picross;
-	
+	String s;
 	public PicrossScreen(String string) {
 		super("nonogram[n][n]"
 				+ "By each row and column there are numbers. They tell you how many black squares there are in that column or row.[n][n]"
@@ -19,6 +20,7 @@ public class PicrossScreen extends PuzzleScreen{
 				+ "A '1 2' means there is one black square, then a gap of at least one white square, followed by two black squares in a row.[n][n]"
 				+ "Left-click to toggle tile colour, right-click to mark a tile as empty.",
 				"Remove all mistakes and solve 3 random squares?");
+		this.s=string;
 		self=this;
 		picross = new Picross(string);
 		picross.setPosition((int)(Main.width/2-picross.getWidth()/2)+SideBit.SIZE/2, (int)(Main.height/2-picross.getHeight()/2)-SideBit.SIZE/2);
@@ -40,6 +42,13 @@ public class PicrossScreen extends PuzzleScreen{
 	public void checkComplete() {
 		if(picross.checkComplete()){
 			complete();
+		}
+	}
+	
+	@Override
+	public void activate() {
+		if(s.equals("gun")){
+			Sounds.playMusic("Doctor_Turtle_-_08_-_The_Encouragement_Stick");
 		}
 	}
 

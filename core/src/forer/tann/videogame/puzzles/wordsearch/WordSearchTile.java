@@ -47,7 +47,15 @@ public class WordSearchTile extends Group{
 	
 	@Override
 	public void draw(Batch batch, float parentAlpha) {
-		batch.setColor(highlight?Colours.LIGHT:Colours.ORANGE);
+		if(lock){
+			batch.setColor(Colours.BROWN);
+		}
+		else if(highlight){
+			batch.setColor(Colours.LIGHT);
+		}
+		else{
+			batch.setColor(Colours.ORANGE);
+		}
 		Draw.fillActor(batch, this);
 		batch.setColor(Colours.DARK);
 		TannFont.bigFont.draw(batch, content+"", getX()+getWidth()/2, getY()+getHeight()/2, Align.center);
@@ -58,6 +66,11 @@ public class WordSearchTile extends Group{
 	boolean highlight;
 	public void highlight(boolean on) {
 		this.highlight=on;
+	}
+
+	boolean lock;
+	public void lock() {
+		lock=true;
 	}
 
 	

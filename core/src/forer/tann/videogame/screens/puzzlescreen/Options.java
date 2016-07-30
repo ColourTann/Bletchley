@@ -18,9 +18,11 @@ public class Options extends Group{
 		help.setPosition(BUTTON_GAP, BUTTON_GAP);
 		hint.setPosition(BUTTON_GAP*2 + BUTTON_SIZE, BUTTON_GAP);
 		skip.setPosition(BUTTON_GAP*3 + BUTTON_SIZE*2, BUTTON_GAP);
-		addActor(skip); 
 		addActor(help); 
-		if(clue) addActor(hint);
+		if(clue){
+			addActor(skip); 
+			addActor(hint);
+		}
 		
 		help.setClickAction(new Runnable() {
 			public void run() {

@@ -24,6 +24,11 @@ public class Button extends Actor{
 		setSize(TannFont.font.getWidth(text)+TEXT_GAP*2, TannFont.font.getHeight()+TEXT_GAP*2);
 	}
 	
+	public Button(String text, int width) {
+		this.text=text;
+		setSize(width, TannFont.font.getHeight()+TEXT_GAP*2);
+	}
+	
 	public void setClickAction(final Runnable r){
 		addListener(new InputListener(){
 			@Override

@@ -7,6 +7,8 @@ import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 
+import forer.tann.videogame.utilities.Sounds;
+import forer.tann.videogame.utilities.Sounds.SoundType;
 import forer.tann.videogame.utilities.graphics.Colours;
 import forer.tann.videogame.utilities.graphics.Draw;
 
@@ -93,6 +95,14 @@ public class PicrossTile extends Group{
 	}
 	
 	public void setState(PicrossTileState state){
+		if(state!=this.state){
+		if(state==PicrossTileState.On||state==PicrossTileState.Cross){
+			Sounds.playSound(SoundType.On);
+		}
+		if(state==PicrossTileState.Off){
+			Sounds.playSound(SoundType.Off);
+		}
+		}
 		this.state=state;
 		PicrossScreen.getCurrentScreen().checkComplete();
 	}

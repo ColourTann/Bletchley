@@ -106,7 +106,6 @@ public class Picross extends Puzzle{
 		for(int x=0;x<tilesAcross;x++){
 			for(int y=0;y<tilesDown;y++){
 				if(!tiles[x][y].isCorrect()){
-					System.out.println(x+":"+y);
 					return false;
 				}
 			}

@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import forer.tann.videogame.Main;
 import forer.tann.videogame.Main.Conspiracy;
 import forer.tann.videogame.screens.puzzlescreen.PuzzleScreen;
+import forer.tann.videogame.utilities.Sounds;
+import forer.tann.videogame.utilities.Sounds.SoundType;
 
 public class WordSearchScreen extends PuzzleScreen{
 
@@ -43,16 +45,21 @@ public class WordSearchScreen extends PuzzleScreen{
 		
 	}
 	int index=0;
-	public void confirmWord() {
-		String s = inputs[index].word; 
+	public boolean confirmWord() {
+		String s = inputs[index].word;
+		if(index==1 && s.equals(inputs[0].word)) return false;
 		if(s.equalsIgnoreCase("MOON")||s.equalsIgnoreCase("BASE")||s.equalsIgnoreCase("NUKE")){
 			index++;
 			if(index==2){
 				complete();
 			}
+			Sounds.playSound(SoundType.Good);
+			return true;
 		}
 		else{
 			inputs[index].word="";
+			Sounds.playSound(SoundType.Bad);
+			return false;
 		}
 	}
 

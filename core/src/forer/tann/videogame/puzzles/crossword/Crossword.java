@@ -125,8 +125,8 @@ public class Crossword extends Puzzle{
 			boolean good = checkAnswer(startTile);
 			if(!good){
 				Sounds.playSound(SoundType.Bad);
-				deselectTyping();
 				resetLetters(startTile);
+						deselectTyping();
 			}
 		}
 		CrosswordScreen.get().checkComplete();
