@@ -11,7 +11,7 @@ public class ConvertImagesMain extends ApplicationAdapter {
 		FileHandle handle = Gdx.files.internal("../toconvert");
 		for(FileHandle f: handle.list()){
 			if(f.name().contains(".")){
-//				if(f.name().contains("victory")) 
+				if(f.name().contains("peace")) 
 					Convertilator.convertilate(f);
 			}
 		}

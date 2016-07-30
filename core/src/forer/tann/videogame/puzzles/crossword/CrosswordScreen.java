@@ -8,6 +8,7 @@ import forer.tann.videogame.Main;
 import forer.tann.videogame.screens.Screen;
 import forer.tann.videogame.screens.puzzlescreen.Options;
 import forer.tann.videogame.screens.puzzlescreen.PuzzleScreen;
+import forer.tann.videogame.utilities.Sounds;
 import forer.tann.videogame.utilities.graphics.Colours;
 import forer.tann.videogame.utilities.graphics.Draw;
 
@@ -97,5 +98,10 @@ public class CrosswordScreen extends PuzzleScreen{
 			}
 		}
 		checkComplete();
+	}
+	
+	@Override
+	public void activate() {
+		Sounds.playMusic("Kai_Engel_-_05_-_April");
 	}
 }

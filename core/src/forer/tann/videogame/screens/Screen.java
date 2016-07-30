@@ -15,33 +15,42 @@ public abstract class Screen extends Group{
 	public Screen() {
 		setSize(Main.width, Main.height);
 	}
-	
+
 	public abstract void keyPressed(int keycode);
 	public abstract void keyReleased(int keycode);
 
 	public void setActive(boolean active) {
 		setTouchable(active?Touchable.enabled:Touchable.disabled);
 		this.active=active;
+		if(active) activate();
+	}
+
+	public void activate(){
+
 	}
 
 	public ArrayList<Actor> stack = new ArrayList<Actor>();
-	
+
 	public void addBlocker(){
 		addActor(InputBlocker.get());
 	}
-	
+
 	public void push(Actor a){
 		stack.add(a);
 		addActor(a);
 	}
-	
-	public void pop() {
+
+	public boolean pop() {
 		if(stack.size()>0){
-			removeActor(stack.remove(0));	
-			
+			removeActor(stack.remove(0));
+			if(stack.size()==0){
+				removeActor(InputBlocker.get());
+				return true;
+			}
+			return true;
 		}
-		removeActor(InputBlocker.get());
+		return false;
 	}
-	
+
 
 }

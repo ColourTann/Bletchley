@@ -18,7 +18,7 @@ public class DialogueScreen extends Screen{
 	public static final int HORIZONTAL_GAP = 3;
 	TextureRegion image;
 	TextRenderer text;
-
+	Runnable r;
 	public interface Procedure{
 		void action();
 	}
@@ -32,6 +32,7 @@ public class DialogueScreen extends Screen{
 	}
 
 	public void setup(String message, String picture, final Runnable r) {
+		this.r=r;
 		image = Main.atlas.findRegion("pixelimages/"+picture);
 		text = new TextRenderer(message, TannFont.bigFont, Main.width-HORIZONTAL_GAP*2);
 		text.setPosition(HORIZONTAL_GAP, (int)(GAP/2-text.getHeight()/2));
@@ -63,5 +64,9 @@ public class DialogueScreen extends Screen{
 	public void keyReleased(int keycode) {
 	}
 
-
+	@Override
+	public void activate() {
+		super.activate();
+		if(r!=null) r.run();
+	}
 }

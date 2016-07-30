@@ -58,9 +58,18 @@ public class WordSearch extends Puzzle {
 
 
 	public void endDrag(WordSearchTile wordSearchTile) {
-		((WordSearchScreen)getParent()).confirmWord();
+		if(((WordSearchScreen)getParent()).confirmWord()){
+			lockWord();
+		}
+		
 		clearWord();
 		origin=null;
+	}
+
+	private void lockWord() {
+		for(WordSearchTile wst:currentWord){
+			wst.lock();
+		}
 	}
 
 	ArrayList<WordSearchTile> currentWord = new ArrayList<WordSearchTile>();

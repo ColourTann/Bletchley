@@ -30,12 +30,15 @@ import forer.tann.videogame.puzzles.crossword.Crossword;
 import forer.tann.videogame.puzzles.crossword.CrosswordScreen;
 import forer.tann.videogame.puzzles.picross.PicrossScreen;
 import forer.tann.videogame.puzzles.wordsearch.WordSearchScreen;
+import forer.tann.videogame.screens.PauseScreen;
 import forer.tann.videogame.screens.Screen;
 import forer.tann.videogame.screens.dialogue.DialogueScreen;
 import forer.tann.videogame.screens.titleScreen.TitleScreen;
+import forer.tann.videogame.utilities.Sounds;
 import forer.tann.videogame.utilities.graphics.Colours;
 import forer.tann.videogame.utilities.graphics.Convertilator;
 import forer.tann.videogame.utilities.graphics.Draw;
+import forer.tann.videogame.utilities.graphics.InputBlocker;
 import forer.tann.videogame.utilities.graphics.TextRenderer;
 import forer.tann.videogame.utilities.graphics.font.TannFont;
 
@@ -71,7 +74,15 @@ public class Main extends ApplicationAdapter {
 
 				switch(keycode){
 				case Keys.ESCAPE:
-					toggleMenu();
+					if(currentScreen.pop()){
+						return false;
+					}
+					if(state==MainState.Paused){
+						pop();
+					}
+					else{
+						toggleMenu();
+					}
 					return false;
 				}
 				currentScreen.keyPressed(keycode);
@@ -83,15 +94,14 @@ public class Main extends ApplicationAdapter {
 
 		setScale(scale);
 		
-		
-		screens.add(new DialogueScreen("All was quiet at 62 Farwell Road (click to continue)", "quiet"));
+		screens.add(new DialogueScreen("All was quiet at 62 Farwell Road (click to continue)", "quiet", new Runnable() {public void run() { Sounds.playMusic("Kai_Engel_-_07_-_May");}}));
 		screens.add(new DialogueScreen("John was in his favourite chair", "sitting"));
 		screens.add(new DialogueScreen("Clank- thud. [tco]\"must be the paper\"[tcl], thought John", "post"));
 		screens.add(new DialogueScreen("[tco]\"Sounds like it's getting bad out there\"", "headline"));
 		screens.add(new DialogueScreen("[tco]\"While I'm safe here, out in the countryside\"", "hands"));
 		screens.add(new DialogueScreen("John always did the crossword", "crossword3"));
 		screens.add(CrosswordScreen.get());
-		screens.add(new DialogueScreen("'If you can solve this, please call this number'", "crossword_completed"));
+		screens.add(new DialogueScreen("'If you can solve this, please call this number'", "crossword_completed", new Runnable() {public void run() { Sounds.playMusic("King_Olivers_Creole_Jazz_Band_-_Snake_Rag");}}));
 		screens.add(new DialogueScreen("'A great opportunity awaits'", "phone"));
 		screens.add(new DialogueScreen("[tcb]\"And you say you got 'horde' for 6 down?\"", "churchill_phone"));
 		screens.add(new DialogueScreen("*TAP-A-TAP-A-TAP*", "agent"));
@@ -106,7 +116,7 @@ public class Main extends ApplicationAdapter {
 		screens.add(new PicrossScreen("gun"));
 		screens.add(new DialogueScreen("[tcb]\"A gun eh? Let's see what the second one is.\"", "hand_envelope"));
 		screens.add(new PicrossScreen("skull"));
-		screens.add(new DialogueScreen("[tcb]\"Hmm, poison and a gun... [tcl]POISON BULLETS!\"", "churchill_think"));
+		screens.add(new DialogueScreen("[tcb]\"Hmm, poison and a gun... [tcl]POISON BULLETS!\"", "churchill_think", new Runnable() {public void run() { Sounds.playMusic("Eddie_Elkins_Orchestra_-_April_Showers");}}));
 		screens.add(new DialogueScreen("[tcb]\"We must invent antidote grenades immediately!\"", "writing"));
 		screens.add(new DialogueScreen("[tcb]\"But this is really amazing work, John!\"", "churchill_happy"));
 		screens.add(new DialogueScreen("[tcl]\"R..F..S..E..I...\"", "telephone_workers"));
@@ -120,6 +130,7 @@ public class Main extends ApplicationAdapter {
 	public enum Conspiracy{MoonBase, NukeBase, MoonNuke};
 	
 	public void addScreens(Conspiracy consp){
+		Sounds.playMusic("Victor_Herbert_Orchestra_-_01_-_1909_-_It_Happened_in_Nordland");
 		switch(consp){
 		case MoonBase:
 			screens.add(new DialogueScreen("[tco]\"Moon...Base?\"", "churchill_conspiracy"));
@@ -147,7 +158,7 @@ public class Main extends ApplicationAdapter {
 	public void addFinalScreens(){
 		screens.add(new DialogueScreen("[tco]\"We must stop them!\"", "churchill_think"));
 		screens.add(new DialogueScreen("The next day", "time"));
-		screens.add(new DialogueScreen("The war was won!", "peace"));
+		screens.add(new DialogueScreen("The war was won!", "peace", new Runnable() {public void run() { Sounds.playMusic("Victor_Herbert_Orchestra_-_21_-_1912_-_The_Ameer");}}));
 		screens.add(new DialogueScreen("[tco]We can't let them know", "victory"));
 		screens.add(new DialogueScreen("[tco]That we're this good at solving puzzles", "victory2"));
 		screens.add(new DialogueScreen("[tco]We'll just say we used computers", "computers"));
@@ -156,6 +167,7 @@ public class Main extends ApplicationAdapter {
 	}
 
 	public void nextScreen(){
+		if(screens.indexOf(currentScreen)==screens.size()-1) return;
 		setScreen(screens.get((screens.indexOf(currentScreen)+1)%screens.size()), TransitionType.FADE, Interpolation.linear, 1.4f);
 	}
 
@@ -177,13 +189,13 @@ public class Main extends ApplicationAdapter {
 
 	public void toggleMenu() {
 		if(state!=MainState.Paused){
-//			stage.addActor(InputBlocker.get());
-//			stage.addActor(PauseScreen.get());
+			stage.addActor(InputBlocker.get());
+			stage.addActor(PauseScreen.get());
 			setState(MainState.Paused);
 		}
 		else {
-//			InputBlocker.get().remove();
-//			PauseScreen.get().remove();
+			InputBlocker.get().remove();
+			PauseScreen.get().remove();
 			setState(MainState.Normal);
 		}
 
@@ -280,10 +292,15 @@ public class Main extends ApplicationAdapter {
 
 
 	public void update(float delta){
-		if(Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)){
-			delta/=10f;
-		}
 		ticks+=delta;
+		Sounds.tick(delta);
 		stage.act(delta);
+	}
+
+	public boolean pop() {
+		if(PauseScreen.get().pop()){
+			return true;
+		}
+		return false;
 	}
 }
